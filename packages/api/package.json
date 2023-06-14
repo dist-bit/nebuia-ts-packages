@@ -1,0 +1,23 @@
+{
+  "name": "@nebuia-ts/api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "scripts": {
+    "lint:fix": "eslint ./src --max-warnings=0 --ext .ts --fix",
+    "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
+    "lint": "yarn lint:format && yarn lint:fix ",
+    "build": "rollup -c ./rollup.config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@nebuia-ts/models": "link:../models",
+    "@nebuia-ts/utils": "link:../utils",
+    "axios": "^1.4.0",
+    "models": "link:../models"
+  }
+}
