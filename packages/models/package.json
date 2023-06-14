@@ -1,6 +1,9 @@
 {
   "name": "@nebuia-ts/models",
   "version": "1.0.0",
+  "keywords": [],
+  "author": "Ulises Rafael Ramírez Martínez",
+  "license": "ISC",
   "description": "Include models to use in nebuia-ts",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -14,8 +17,5 @@
   "files": [
     "dist",
     "README.md"
-  ],
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  ]
 }
