@@ -11,6 +11,10 @@
     "lint": "yarn lint:format && yarn lint:fix ",
     "build": "rollup -c ./rollup.config.js"
   },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "keywords": [],
   "author": "",
   "license": "ISC"
