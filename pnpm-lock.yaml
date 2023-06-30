@@ -42,10 +42,10 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: workspace:^
+        specifier: 1.1.0
         version: link:../models
       '@nebuia-ts/utils':
-        specifier: workspace:^
+        specifier: 1.0.0
         version: link:../utils
       axios:
         specifier: ^1.4.0
@@ -56,7 +56,7 @@ importers:
   packages/utils:
     dependencies:
       '@nebuia-ts/models':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: link:../models
 
 packages:
