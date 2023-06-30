@@ -1,3 +1,5 @@
+export * from './AdvancedSignature';
+export * from './AdvancedSignatureTemplates';
 export * from './Common';
 export * from './NebuiaAddress';
 export * from './NebuiaCompany';

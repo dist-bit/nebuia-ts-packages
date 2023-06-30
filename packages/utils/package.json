@@ -15,6 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@nebuia-ts/models": "link:../models"
+    "@nebuia-ts/models": "1.1.0"
   }
 }
