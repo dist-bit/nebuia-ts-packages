@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/models",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
@@ -11,8 +11,9 @@
   "scripts": {
     "lint:fix": "eslint ./src --max-warnings=0 --ext .ts --fix",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
-    "lint": "yarn lint:format && yarn lint:fix ",
-    "build": "rollup -c ./rollup.config.js"
+    "lint": "pnpm lint:format && pnpm lint:fix ",
+    "build": "rollup -c ./rollup.config.js",
+    "prepare": "pnpm build"
   },
   "files": [
     "dist",
