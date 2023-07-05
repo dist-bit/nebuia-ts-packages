@@ -10,7 +10,7 @@ import { CreateAdvancedSignatureDTO } from '../dto/NebuiaSignatureDTOs';
 export interface NebuiaSignatureRepo {
   createAdvancedSignature: (arg0: CreateAdvancedSignatureDTO) => true;
   /// signers
-  getAdvancedSignatureDocumentToSign: (arg0: { jwt: string }) => {
+  getAdvancedSignatureDocumentToSign: () => {
     document: AdvancedSignDocument & {
       company: AdvancedSignCompany;
     };
@@ -18,25 +18,19 @@ export interface NebuiaSignatureRepo {
       partialSigns: PartialAdvancedSignerSign[];
     };
   };
-  getAdvancedSignatureDocumentFileToSign(arg0: { jwt: string }): ArrayBuffer;
+  getAdvancedSignatureDocumentFileToSign(): ArrayBuffer;
 
-  getAdvancedSignatureDocumentBase64FileToSign(arg0: { jwt: string }): string;
+  getAdvancedSignatureDocumentBase64FileToSign(): string;
 
-  getMyAdvancedSignatureDocuments(arg0: {
-    jwt: string;
-  }): AdvancedSignDocument[];
+  getMyAdvancedSignatureDocuments(): AdvancedSignDocument[];
 
-  downloadOwnAdvancedSignatureDocumentFile(arg0: {
-    jwt: string;
-    id: string;
-  }): ArrayBuffer;
+  downloadOwnAdvancedSignatureDocumentFile(arg0: { id: string }): ArrayBuffer;
 
   downloadOwnFilledAdvancedSignatureDocumentFile(arg0: {
-    jwt: string;
     id: string;
   }): ArrayBuffer;
 
-  findAdvancedSignaturesByEmail({ email }: { email: string }): {
+  findAdvancedSignaturesByEmail(arg0: { email: string }): {
     id: string;
     name: string;
     description: string | null;
@@ -58,24 +52,20 @@ export interface NebuiaSignatureRepo {
     code: string;
   }): string;
 
-  saveAdvancedSignatureGraphSign(arg0: { jwt: string; sign: Blob }): true;
+  saveAdvancedSignatureGraphSign(arg0: { sign: Blob }): true;
 
   saveAdvancedSignatureFielSign(arg0: {
-    jwt: string;
     cer: File;
     key: File;
     password: string;
   }): true;
 
-  getMyStatistics(arg0: { jwt: string }): {
+  getMyStatistics(): {
     totalDocs: number;
     totalTemplates: number;
   };
 
-  getAdvancedSignatureDetails(arg0: {
-    jwt: string;
-    id: string;
-  }): AdvancedSignDocument & {
+  getAdvancedSignatureDetails(arg0: { id: string }): AdvancedSignDocument & {
     signs: AdvancedSignatureSigner[];
   };
 }

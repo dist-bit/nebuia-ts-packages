@@ -6,7 +6,6 @@ export interface CreateAdvancedSignatureDTO {
   emails: string[];
   name: string;
   description?: string;
-  jwt: string;
   document: File | Blob;
   graphicSign?: {
     x: number;

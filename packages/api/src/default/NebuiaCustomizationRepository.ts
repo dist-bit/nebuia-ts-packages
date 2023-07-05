@@ -1,20 +1,21 @@
+import { NebuiaCompanyWidgetSettings } from '@nebuia-ts/models';
 import { convertKeysToHeaders } from '@nebuia-ts/utils';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaCustomizationRepository } from './interfaces/NebuiaCustomizationRepository';
 
-export class NebuiaCustomizationApiRepository extends NebuiaApiRepository<NebuiaCustomizationRepository> {
-  override get actions(): ParsedApiMethods<NebuiaCustomizationRepository> {
-    const request = this.request.bind(this);
+export class NebuiaCustomizationApiRepository
+  extends NebuiaApiRepository
+  implements ParsedApiMethods<NebuiaCustomizationRepository>
+{
+  async getCompanyTheme(): NebuiaApiResponse<NebuiaCompanyWidgetSettings> {
+    const keys = this.keys;
 
-    return {
-      async getCompanyTheme(keys) {
-        return request({
-          path: 'company/theme',
-          method: 'get',
-          headers: convertKeysToHeaders(keys),
-        });
-      },
-    };
+    return this.request({
+      path: 'company/theme',
+      method: 'get',
+      headers: convertKeysToHeaders(keys),
+    });
   }
 }

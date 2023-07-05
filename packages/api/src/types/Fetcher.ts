@@ -1,3 +1,4 @@
+import { NebuiaKeys } from '@nebuia-ts/models';
 import Axios, { AxiosResponse } from 'axios';
 
 import { NebuiaApiFetchProps } from './Common';
@@ -17,31 +18,40 @@ export type ParsedApiMethods<T> = {
     : never;
 };
 
-export abstract class NebuiaApiRepository<I> {
-  private static readonly _instances: Map<
-    string,
-    NebuiaApiRepository<unknown>
-  > = new Map();
-
-  protected readonly baseUrl: string = NebuiaApiUrl;
+export abstract class NebuiaApiRepository {
   protected readonly config: NebuiaApiRepositoryConfig = {
     errorDataProp: 'payload',
     successDataProp: 'payload',
   };
 
-  public static getInstance<T extends NebuiaApiRepository<unknown>>(
-    constructor: new () => T,
-  ): T {
-    const className = constructor.name;
+  private _token: string | null = null;
+  private _keys: NebuiaKeys | null = null;
 
-    if (!NebuiaApiRepository._instances.has(className)) {
-      NebuiaApiRepository._instances.set(className, new constructor());
-    }
+  constructor(protected baseUrl: string = NebuiaApiUrl) {}
 
-    return NebuiaApiRepository._instances.get(className) as T;
+  public set token(value: string) {
+    this._token = value;
   }
 
-  abstract get actions(): ParsedApiMethods<I>;
+  public get token(): string {
+    if (!this._token) {
+      throw new Error('Token not set');
+    }
+
+    return this._token;
+  }
+
+  public set keys(value: NebuiaKeys) {
+    this._keys = value;
+  }
+
+  public get keys(): NebuiaKeys {
+    if (!this._keys) {
+      throw new Error('Keys not set');
+    }
+
+    return this._keys;
+  }
 
   protected async request<T extends Exclude<unknown, ArrayBuffer>>(
     props: NebuiaApiFetchProps,
@@ -162,12 +172,23 @@ export abstract class NebuiaApiRepository<I> {
 }
 
 export class NebuiaApiFetcher {
-  private readonly repositories: Record<string, NebuiaApiRepository<unknown>> =
-    {};
+  private readonly repositories: Record<string, NebuiaApiRepository> = {};
 
-  public registerRepository<T extends NebuiaApiRepository<unknown>>(
+  public initToken(token: string): void {
+    Object.values(this.repositories).forEach((repo) => {
+      repo.token = token;
+    });
+  }
+
+  public initKeys(keys: NebuiaKeys): void {
+    Object.values(this.repositories).forEach((repo) => {
+      repo.keys = keys;
+    });
+  }
+
+  public register<T extends NebuiaApiRepository>(
     repository: T,
-  ): T extends NebuiaApiRepository<infer I> ? NebuiaApiRepository<I> : never {
+  ): NebuiaApiRepository {
     const name = repository.constructor.name;
     if (this.repositories[name]) {
       throw new Error(`Repository ${name} already registered`);
@@ -175,19 +196,17 @@ export class NebuiaApiFetcher {
 
     this.repositories[name] = repository;
 
-    return repository as unknown as T extends NebuiaApiRepository<infer I>
-      ? NebuiaApiRepository<I>
-      : never;
+    return repository;
   }
 
   public request<
-    T extends NebuiaApiRepository<unknown>,
-    K extends keyof T['actions'],
+    T extends NebuiaApiRepository,
+    K extends keyof ParsedApiMethods<T>,
   >(
     repository: T,
     method: K,
-    ...args: Parameters<T['actions'][K]>
-  ): ReturnType<T['actions'][K]> {
+    ...args: Parameters<ParsedApiMethods<T>[K]>
+  ): ReturnType<ParsedApiMethods<T>[K]> {
     const name = repository.constructor.name;
     const repo = this.repositories[name];
     if (!repo) {
@@ -196,9 +215,9 @@ export class NebuiaApiFetcher {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const action = repo.actions[method] as (
-      ...args: Parameters<T['actions'][K]>
-    ) => ReturnType<T['actions'][K]>;
+    const action = repo[method] as (
+      ...args: Parameters<ParsedApiMethods<T>[K]>
+    ) => ReturnType<ParsedApiMethods<T>[K]>;
 
     return action(...args);
   }

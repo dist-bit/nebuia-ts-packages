@@ -10,7 +10,8 @@
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
     "lint": "pnpm lint:format && pnpm lint:fix ",
     "build": "rollup -c ./rollup.config.js",
-    "prepare": "pnpm build"
+    "prepare": "pnpm build",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

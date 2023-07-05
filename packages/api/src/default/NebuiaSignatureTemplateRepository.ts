@@ -1,8 +1,8 @@
 import { AdvSigTemplateDocument } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaSignatureTemplateRepo } from './interfaces/NebuiaSignatureTemplateRepo';
-import { NebuiaSignatureRepository } from './NebuiaSignatureRepo';
 
 const parseTemplate = (
   template: Omit<AdvSigTemplateDocument, 'company'>,
@@ -47,69 +47,92 @@ const parseTemplate = (
     })),
   };
 };
-export class NebuiaSignatureTemplateRepository extends NebuiaApiRepository<NebuiaSignatureTemplateRepo> {
-  public static i = NebuiaApiRepository.getInstance(NebuiaSignatureRepository);
+export class NebuiaSignatureTemplateRepository
+  extends NebuiaApiRepository
+  implements ParsedApiMethods<NebuiaSignatureTemplateRepo>
+{
+  constructor(baseUrl = 'https://api.distbit.io/contracts-api') {
+    super(baseUrl);
+  }
 
-  override baseUrl = 'https://api.distbit.io/contracts-api';
+  async getAdvSigTemplates(): NebuiaApiResponse<
+    (AdvSigTemplateDocument & { createdAt: string; updatedAt: string })[]
+  > {
+    const jwt = this.token;
 
-  override get actions(): ParsedApiMethods<NebuiaSignatureTemplateRepo> {
-    const request = this.request.bind(this);
-    const requestFile = this.requestFile.bind(this);
+    return this.request({
+      method: 'get',
+      path: '/advanced-signature-templates',
+      jwt,
+    });
+  }
 
-    return {
-      async getAdvSigTemplates({ jwt }) {
-        return request({
-          method: 'get',
-          path: '/advanced-signature-templates',
-          jwt,
-        });
+  async saveAdvSigTemplate(arg0: {
+    template: Omit<AdvSigTemplateDocument, 'company' | 'id'>;
+    file: File;
+  }): NebuiaApiResponse<true> {
+    const jwt = this.token;
+    const { template, file } = arg0;
+    const currentScale = 0.8;
+    const expectedScale = 1;
+
+    const parsedTemplate = parseTemplate(template, currentScale, expectedScale);
+
+    const body = new FormData();
+    body.append('document', file);
+    body.append('template', JSON.stringify(parsedTemplate));
+
+    return this.request({
+      method: 'post',
+      path: '/advanced-signature-templates',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'multipart/form-data',
       },
-      async saveAdvSigTemplate({ jwt, template, file }) {
-        const currentScale = 0.8;
-        const expectedScale = 1;
+      body,
+    });
+  }
 
-        const parsedTemplate = parseTemplate(
-          template,
-          currentScale,
-          expectedScale,
-        );
+  async getAdvSigTemplate(arg0: {
+    id: string;
+  }): NebuiaApiResponse<{ template: AdvSigTemplateDocument; file: string }> {
+    const jwt = this.token;
+    const { id } = arg0;
 
-        const body = new FormData();
-        body.append('document', file);
-        body.append('template', JSON.stringify(parsedTemplate));
+    return this.request({
+      method: 'get',
+      path: `/advanced-signature-templates/${id}`,
+      jwt,
+    });
+  }
 
-        return request({
-          method: 'post',
-          path: '/advanced-signature-templates',
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-            'Content-Type': 'multipart/form-data',
-          },
-          body,
-        });
-      },
-      async getAdvSigTemplateFile({ id, jwt }) {
-        return requestFile({
-          path: `/advanced-signature-templates/${id}/document`,
-          method: 'get',
-          jwt,
-        });
-      },
-      async getAdvSigTemplate({ id, jwt }) {
-        return request({
-          method: 'get',
-          path: `/advanced-signature-templates/${id}`,
-          jwt,
-        });
-      },
-      async createAdvSigByTemplate({ data, jwt }) {
-        return request({
-          method: 'post',
-          path: `/advanced-signature/template`,
-          jwt,
-          body: data,
-        });
-      },
+  async getAdvSigTemplateFile(arg0: {
+    id: string;
+  }): NebuiaApiResponse<ArrayBuffer> {
+    const jwt = this.token;
+    const { id } = arg0;
+
+    return this.requestFile({
+      path: `/advanced-signature-templates/${id}/document`,
+      method: 'get',
+      jwt,
+    });
+  }
+
+  async createAdvSigByTemplate(arg0: {
+    data: {
+      templateId: string;
+      signers: { email: string; kycId?: string | undefined }[];
     };
+  }): NebuiaApiResponse<true> {
+    const jwt = this.token;
+    const { data } = arg0;
+
+    return this.request({
+      method: 'post',
+      path: `/advanced-signature/template`,
+      jwt,
+      body: data,
+    });
   }
 }
