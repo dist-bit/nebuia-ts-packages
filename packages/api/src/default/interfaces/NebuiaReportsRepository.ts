@@ -1,7 +1,6 @@
-import { NebuiaKeys, NebuiaReport } from '@nebuia-ts/models';
+import { NebuiaReport } from '@nebuia-ts/models';
 
-type WithKeys<T = object> = T & { keys: NebuiaKeys };
-type WithReport<T = object> = WithKeys<T & { report: string }>;
+import { WithKeys, WithReport } from './common';
 
 export interface NebuiaReportsRepository {
   generateReport(arg0: WithKeys): string;

@@ -2,12 +2,10 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaIdDocument,
-  NebuiaKeys,
   NebuiaSteps,
 } from '@nebuia-ts/models';
 
-type WithKeys<T = object> = T & { keys: NebuiaKeys };
-type WithReport<T = object> = WithKeys<T & { report: string }>;
+import { WithReport } from './common';
 
 export interface NebuiaWidgetRepository {
   checkAuthCode<T>(arg0: WithReport<{ code: string }>): T;

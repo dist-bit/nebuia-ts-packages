@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { NebuiaKeys } from '@nebuia-ts/models';
 import { convertKeysToHeaders } from '@nebuia-ts/utils';
-import { NebuiaKeys } from 'models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaWidgetRepository } from './interfaces/NebuiaWidgetRepository';

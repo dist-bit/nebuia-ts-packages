@@ -1,7 +1,6 @@
 import {
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
-  NebuiaKeys,
   NebuiaReport,
   NebuiaStepNames,
   ReportValidity,
@@ -12,24 +11,26 @@ import {
   GetCompanyReportsDTO,
   RegisterNebuiaUserDTO,
 } from '../dto/NebuiaAdminDTOs';
-
-type WithJWT<T = object> = T & { jwt: string };
-type WithKeys<T = object> = T & { keys: NebuiaKeys };
+import { WithKeys, WithToken } from './common';
 
 export type NebuiaAdminRepository = {
   login: (arg0: { email: string; password: string }) => { token: string };
   createAccount: (arg0: RegisterNebuiaUserDTO) => 'successful operation';
-  getMyCompany: (arg0: WithJWT) => NebuiaCompany;
-  createCompany: (arg0: WithJWT<CreateNebuiaCompanyDTO>) => unknown;
-  createKeys: (arg0: WithJWT) => unknown;
+  getMyCompany: (arg0: WithToken) => NebuiaCompany;
+  createCompany: (arg0: WithToken<CreateNebuiaCompanyDTO>) => unknown;
+  createKeys: (arg0: WithToken) => unknown;
   getReportsByCompany: (
     arg0: WithKeys<GetCompanyReportsDTO>,
   ) => (NebuiaReport & { validity: ReportValidity })[] | undefined;
-  updateIp: (arg0: WithJWT<{ value: string }>) => unknown;
-  updateOrigin: (arg0: WithJWT<{ value: string }>) => unknown;
+  updateIp: (arg0: WithToken<{ value: string }>) => unknown;
+  updateOrigin: (arg0: WithToken<{ value: string }>) => unknown;
   updateCompanyTheme: (
-    arg0: WithJWT<{ value: NebuiaCompanyWidgetSettings }>,
+    arg0: WithToken<{ value: NebuiaCompanyWidgetSettings }>,
   ) => unknown;
-  updateCompanySteps: (arg0: WithJWT<{ value: NebuiaStepNames[] }>) => unknown;
-  invalidateReport: (arg0: WithJWT<WithKeys<{ reportId: string }>>) => unknown;
+  updateCompanySteps: (
+    arg0: WithToken<{ value: NebuiaStepNames[] }>,
+  ) => unknown;
+  invalidateReport: (
+    arg0: WithToken<WithKeys<{ reportId: string }>>,
+  ) => unknown;
 };
