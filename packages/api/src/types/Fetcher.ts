@@ -33,12 +33,15 @@ export abstract class NebuiaApiRepository {
     this._token = value;
   }
 
-  public get token(): string {
+  public get token(): NebuiaApiResponse<string> {
     if (!this._token) {
       throw new Error('Token not set');
     }
 
-    return this._token;
+    return Promise.resolve({
+      status: true,
+      payload: this._token,
+    });
   }
 
   public set keys(value: NebuiaKeys) {
@@ -139,14 +142,23 @@ export abstract class NebuiaApiRepository {
     >
   > {
     const { method, path, body, headers, jwt, query } = props;
-
+    let token;
+    if (!!jwt && typeof jwt === 'string') {
+      token = jwt;
+    } else if (!!jwt && typeof jwt === 'object') {
+      const response = await jwt;
+      if (!response.status) {
+        throw new Error(response.payload);
+      }
+      token = response.payload;
+    }
     const response = await axios.request<T>({
       data: body,
       baseURL: this.baseUrl,
       params: query,
       headers: {
         ...headers,
-        Authorization: jwt ? `Bearer ${jwt}` : undefined,
+        Authorization: token ? `Bearer ${token}` : undefined,
       },
       method,
       url: path,

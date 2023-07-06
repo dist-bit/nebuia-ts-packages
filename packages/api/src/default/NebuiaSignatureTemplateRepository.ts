@@ -85,8 +85,8 @@ export class NebuiaSignatureTemplateRepository
     return this.request({
       method: 'post',
       path: '/advanced-signature-templates',
+      jwt,
       headers: {
-        Authorization: `Bearer ${jwt}`,
         'Content-Type': 'multipart/form-data',
       },
       body,

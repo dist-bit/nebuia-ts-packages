@@ -16,7 +16,7 @@
     "prepare": "pnpm build"
   },
   "dependencies": {
-    "@nebuia-ts/api": "2.0.9",
+    "@nebuia-ts/api": "2.1.9",
     "@nebuia-ts/models": "1.1.4"
   },
   "files": [

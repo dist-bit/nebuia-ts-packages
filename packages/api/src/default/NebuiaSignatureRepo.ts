@@ -216,8 +216,8 @@ export class NebuiaSignatureRepository
     return this.request({
       path: '/advanced-signature/sign/save/fiel',
       method: 'post',
+      jwt,
       headers: {
-        Authorization: `Bearer ${jwt}`,
         'Content-Type': 'multipart/form-data',
       },
       body: formData,
