@@ -1,6 +1,6 @@
 import {
+  AdvancedSignatureCompany,
   AdvancedSignatureSigner,
-  AdvancedSignCompany,
   AdvancedSignDocument,
   PartialAdvancedSignerSign,
 } from '@nebuia-ts/models';
@@ -12,7 +12,7 @@ export interface NebuiaSignatureRepo {
   /// signers
   getAdvancedSignatureDocumentToSign: () => {
     document: AdvancedSignDocument & {
-      company: AdvancedSignCompany;
+      company: AdvancedSignatureCompany;
     };
     sign: AdvancedSignatureSigner & {
       partialSigns: PartialAdvancedSignerSign[];

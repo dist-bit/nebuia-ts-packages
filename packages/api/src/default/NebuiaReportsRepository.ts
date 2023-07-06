@@ -1,5 +1,4 @@
-import { NebuiaReport } from '@nebuia-ts/models';
-import { convertKeysToHeaders } from '@nebuia-ts/utils';
+import { convertKeysToHeaders, NebuiaReport } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';

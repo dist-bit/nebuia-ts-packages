@@ -21,5 +21,6 @@ module.exports = {
       declaration: true,
     }),
   ],
-  external: ['axios', '@nebuia-ts/utils'],
+
+  external: ['axios', '@nebuia-ts/models'],
 };

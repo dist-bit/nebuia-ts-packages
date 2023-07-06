@@ -20,6 +20,7 @@ describe('Verify auth methods', () => {
 
     if (response.status) {
       repositoryContainer.initToken(response.payload.token);
+      console.log(response.payload.token);
     }
 
     const documents =

@@ -51,22 +51,28 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: 1.1.0
-        version: 1.1.0
-      '@nebuia-ts/utils':
-        specifier: 1.0.1
-        version: 1.0.1
+        specifier: 1.1.4
+        version: link:../models
       axios:
         specifier: ^1.4.0
         version: 1.4.0
 
   packages/models: {}
 
+  packages/sdk:
+    dependencies:
+      '@nebuia-ts/api':
+        specifier: 2.0.9
+        version: link:../api
+      '@nebuia-ts/models':
+        specifier: 1.1.4
+        version: link:../models
+
   packages/utils:
     dependencies:
       '@nebuia-ts/models':
-        specifier: 1.1.0
-        version: 1.1.0
+        specifier: 1.1.3
+        version: 1.1.3
 
 packages:
 
@@ -793,14 +799,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nebuia-ts/models@1.1.0:
-    resolution: {integrity: sha512-huuBCsmZC+jlMAEu6ulnYzeSLvaBFYFQlu/thvkeSG7BrS0QePvWn2JArncbPu78iwVXTxBYUMcgI8u4NylxJQ==}
-    dev: false
-
-  /@nebuia-ts/utils@1.0.1:
-    resolution: {integrity: sha512-oWp8lMRGjb2v4NDdU0S8uOsqYlXg0zkp+KF2zKRLUtCQfE8Cdgb+0h4cMYeB5O8Rx4LAPtxIbfYmeIo71jtnPw==}
-    dependencies:
-      '@nebuia-ts/models': 1.1.0
+  /@nebuia-ts/models@1.1.3:
+    resolution: {integrity: sha512-9bactZ6gfAoqRfh6LxBhkHmMCUUHj9JVGmpD8gYJmOdehxSXiTGlpG15XYnbz5lu04M/cSWLpYprzGh07bNcaw==}
     dev: false
 
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:

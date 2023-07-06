@@ -1,155 +1,149 @@
 import {
+  convertKeysToHeaders,
   NebuiaAddress,
   NebuiaCompany,
   NebuiaIdDocument,
   NebuiaSteps,
 } from '@nebuia-ts/models';
-import { convertKeysToHeaders } from '@nebuia-ts/utils';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
-import { WithReport } from './interfaces/common';
 import { NebuiaWidgetRepository } from './interfaces/NebuiaWidgetRepository';
 
 export class NebuiaWidgetApiRepository
   extends NebuiaApiRepository
   implements ParsedApiMethods<NebuiaWidgetRepository>
 {
-  async checkAuthCode(
-    arg0: WithReport<{ code: string }>,
-  ): NebuiaApiResponse<unknown> {
-    const { code } = arg0;
+  private _report: string | null = null;
 
+  public get report(): string {
+    if (!this._report) {
+      throw new Error('Report not set');
+    }
+
+    return this._report;
+  }
+
+  public set report(value: string) {
+    this._report = value;
+  }
+
+  async checkAuthCode(code: string): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: `otp/verify/time_key/${code}`,
     });
   }
 
-  async getOrigin(arg0: WithReport): NebuiaApiResponse<string> {
+  async getOrigin(): NebuiaApiResponse<string> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'origin/company',
     });
   }
 
-  async getStepsCompany(arg0: WithReport): NebuiaApiResponse<string[]> {
+  async getStepsCompany(): NebuiaApiResponse<string[]> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'steps/company',
     });
   }
 
-  async getStepsFromReport(arg0: WithReport): NebuiaApiResponse<NebuiaSteps> {
+  async getStepsFromReport(): NebuiaApiResponse<NebuiaSteps> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'services/steps',
     });
   }
 
-  async getCompanyKeys(
-    arg0: WithReport,
-  ): NebuiaApiResponse<
+  async getCompanyKeys(): NebuiaApiResponse<
     Pick<NebuiaCompany, 'keys' | 'otp'> & { report: string }
   > {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'mobile/data',
     });
   }
 
   async savePhoneNumber(
-    arg0: WithReport<{ phone: string }>,
+    phone: string,
+    extension = '+52',
   ): NebuiaApiResponse<unknown> {
-    const { phone } = arg0;
-
     return this.request({
-      ...this.parse('put', arg0),
+      ...this.parse('put'),
       path: 'services/phone',
-      body: { phone: `+52${phone}` },
+      body: { phone: `${extension}${phone}` },
     });
   }
 
-  async saveEmail(
-    arg0: WithReport<{ email: string }>,
-  ): NebuiaApiResponse<unknown> {
-    const { email } = arg0;
-
+  async saveEmail(email: string): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('put', arg0),
+      ...this.parse('put'),
       path: 'services/email',
       body: { email },
     });
   }
 
-  async generateOTPCode(
-    arg0: WithReport<{ toEmail: boolean }>,
-  ): NebuiaApiResponse<unknown> {
-    const { toEmail } = arg0;
-
+  async generateOTPCode({
+    toEmail,
+  }: {
+    toEmail: boolean;
+  }): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: `services/otp/generate/${toEmail ? 'email' : 'phone'}`,
     });
   }
 
-  async verifyOTPCode(
-    arg0: WithReport<{ toEmail: boolean; code: string }>,
-  ): NebuiaApiResponse<unknown> {
-    const { code, toEmail } = arg0;
-
+  async verifyOTPCode({
+    code,
+    toEmail,
+  }: {
+    toEmail: boolean;
+    code: string;
+  }): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: `services/otp/validate/${toEmail ? 'email' : 'phone'}/${code}`,
     });
   }
 
   async analiceFace(
-    arg0: WithReport<{ img: Blob }>,
+    img: Blob,
   ): NebuiaApiResponse<{ score: number; status: boolean }> {
-    const { img } = arg0;
     const body = new FormData();
     body.append('face', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/face',
       body,
     });
   }
 
-  async qualityFace(
-    arg0: WithReport<{ img: Blob }>,
-  ): NebuiaApiResponse<number> {
-    const { img } = arg0;
+  async qualityFace(img: Blob): NebuiaApiResponse<number> {
     const body = new FormData();
     body.append('face', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/face/quality',
       body,
     });
   }
 
-  async analiceID(
-    arg0: WithReport<{ img: Blob }>,
-  ): NebuiaApiResponse<{ image: string }> {
-    const { img } = arg0;
+  async analiceID(img: Blob): NebuiaApiResponse<{ image: string }> {
     const body = new FormData();
     body.append('front', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/crop',
       body,
     });
   }
 
-  async uploadID(
-    arg0: WithReport<{ document: NebuiaIdDocument }>,
-  ): NebuiaApiResponse<unknown> {
-    const { document } = arg0;
+  async uploadID(document: NebuiaIdDocument): NebuiaApiResponse<unknown> {
     const body = new FormData();
     document.images.forEach((img, i) => {
       body.append(i === 0 ? 'front' : 'back', img, 'data.jpg');
@@ -157,86 +151,83 @@ export class NebuiaWidgetApiRepository
     body.append('document', document.name);
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/id/cropped/experimental',
       body,
     });
   }
 
-  async getAddress(
-    arg0: WithReport<{ img: Blob; isPDF: boolean }>,
-  ): NebuiaApiResponse<NebuiaAddress> {
-    const { isPDF, img } = arg0;
+  async getAddress({
+    img,
+    isPDF,
+  }: {
+    img: Blob;
+    isPDF: boolean;
+  }): NebuiaApiResponse<NebuiaAddress> {
     const body = new FormData();
     body.append('document', img, isPDF ? 'data.pdf' : 'data.jpg');
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/address',
     });
   }
 
-  async saveAddress(
-    arg0: WithReport<{ address: NebuiaAddress }>,
-  ): NebuiaApiResponse<unknown> {
-    const { address } = arg0;
-
+  async saveAddress(address: NebuiaAddress): NebuiaApiResponse<unknown> {
     const body = JSON.parse(JSON.stringify(address)) as Record<string, unknown>;
 
     return this.request({
-      ...this.parse('post', arg0),
+      ...this.parse('post'),
       path: 'services/address',
       body,
     });
   }
 
-  async getFace(arg0: WithReport): NebuiaApiResponse<ArrayBuffer> {
+  async getFace(): NebuiaApiResponse<ArrayBuffer> {
     return this.requestFile({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'services/faces',
     });
   }
 
-  async generateURL(arg0: WithReport): NebuiaApiResponse<string> {
+  async generateURL(): NebuiaApiResponse<string> {
     return this.request({
-      ...this.parse('get', arg0),
+      ...this.parse('get'),
       path: 'services/mobile/generate',
     });
   }
 
   async generateUrlSMS(
-    arg0: WithReport<{ phone: string }>,
+    phone: string,
+    extension = '+52',
   ): NebuiaApiResponse<unknown> {
-    const { phone } = arg0;
-
     return this.request({
-      ...this.parse('get', arg0),
-      path: `services/mobile/generate/${phone}`,
+      ...this.parse('get'),
+      path: `services/mobile/generate/${extension}${phone}`,
     });
   }
 
-  async saveEmailPhone(
-    arg0: WithReport<{ value: string; toEmail: boolean }>,
-  ): NebuiaApiResponse<unknown> {
+  async saveEmailPhone(arg0: {
+    value: string;
+    toEmail: boolean;
+  }): NebuiaApiResponse<unknown> {
     const { toEmail, value } = arg0;
 
     return this.request({
-      ...this.parse('put', arg0),
+      ...this.parse('put'),
       path: `services/${toEmail ? 'email' : 'phone'}`,
       body: toEmail ? { email: value } : { phone: `+52${value}` },
     });
   }
 
-  private parse(
-    method: 'get' | 'post' | 'put' | 'delete' | 'patch',
-    props: { report: string },
-  ) {
+  private parse(method: 'get' | 'post' | 'put' | 'delete' | 'patch') {
     const keys = this.keys;
+    const report = this.report;
 
     return {
       method,
       headers: convertKeysToHeaders(keys),
-      query: { report: props.report },
+      query: { report },
     };
   }
 }

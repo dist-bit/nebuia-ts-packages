@@ -1,5 +1,7 @@
-import { NebuiaCompanyWidgetSettings } from '@nebuia-ts/models';
-import { convertKeysToHeaders } from '@nebuia-ts/utils';
+import {
+  convertKeysToHeaders,
+  NebuiaCompanyWidgetSettings,
+} from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';

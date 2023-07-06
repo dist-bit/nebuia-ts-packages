@@ -1,14 +1,12 @@
 import {
+  checkNebuiaReportValidity,
+  convertKeysToHeaders,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
   NebuiaReport,
   NebuiaStepNames,
   ReportValidity,
 } from '@nebuia-ts/models';
-import {
-  checkNebuiaReportValidity,
-  convertKeysToHeaders,
-} from '@nebuia-ts/utils';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';

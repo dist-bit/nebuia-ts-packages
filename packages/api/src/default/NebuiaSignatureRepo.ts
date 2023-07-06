@@ -1,6 +1,6 @@
 import {
+  AdvancedSignatureCompany,
   AdvancedSignatureSigner,
-  AdvancedSignCompany,
   AdvancedSignDocument,
   PartialAdvancedSignerSign,
 } from '@nebuia-ts/models';
@@ -64,7 +64,7 @@ export class NebuiaSignatureRepository
 
   async getAdvancedSignatureDocumentToSign(): NebuiaApiResponse<{
     document: AdvancedSignDocument & {
-      company: AdvancedSignCompany;
+      company: AdvancedSignatureCompany;
     };
     sign: AdvancedSignatureSigner & {
       partialSigns: PartialAdvancedSignerSign[];

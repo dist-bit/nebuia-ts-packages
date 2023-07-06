@@ -19,5 +19,5 @@ module.exports = {
       declaration: true,
     }),
   ],
-  external: ['@nebuia-ts/models'],
+  external: ['@nebuia-ts/api', '@nebuia-ts/models'],
 };
