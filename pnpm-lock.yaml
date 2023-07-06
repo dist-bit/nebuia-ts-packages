@@ -69,7 +69,7 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 2.1.9-rc.1
+        specifier: workspace:*
         version: link:../api
       '@nebuia-ts/models':
         specifier: 1.1.4

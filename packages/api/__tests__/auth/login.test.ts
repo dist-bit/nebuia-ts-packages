@@ -12,7 +12,7 @@ describe('Verify auth methods', () => {
   it('should login with valid credentials and integrate token in others repositories', async () => {
     const repository = new NebuiaAdminApiRepository();
     const user = process.env['NEBUIA_USER'] ?? '';
-    const pass = process.env['NEBUIA_PASS'] ?? '';
+    const pass = process.env['NEBUIA_PASSWORD'] ?? '';
     const response = await repository.login({ email: user, password: pass });
 
     expect(response.status).toBe(true);

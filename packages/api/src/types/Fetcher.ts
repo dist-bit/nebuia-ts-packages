@@ -164,9 +164,6 @@ export abstract class NebuiaApiRepository {
       url: path,
     };
 
-    // eslint-disable-next-line no-console
-    console.log('axiosConfig', JSON.stringify(axiosConfig, null, 2));
-
     const response = await axios.request<T>(axiosConfig);
 
     return response as AxiosResponse<

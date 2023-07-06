@@ -88,7 +88,7 @@ export class NebuiaAdminApiRepository
     const jwt = this.token;
 
     return this.request({
-      path: 'company',
+      path: 'company/',
       method: 'get',
       jwt,
     });
