@@ -17,6 +17,7 @@ module.exports = {
   plugins: [
     typescript({
       declaration: true,
+      tsconfig: 'tsconfig.build.json',
     }),
   ],
   external: ['@nebuia-ts/api', '@nebuia-ts/models'],

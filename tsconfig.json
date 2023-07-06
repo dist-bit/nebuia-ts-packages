@@ -29,13 +29,5 @@
     "noEmitOnError": true,
     "noUncheckedIndexedAccess": true
   },
-  "exclude": [
-    "**/node_modules",
-    "**/build",
-    "**/dist",
-    "**/coverage",
-    "**/__tests__",
-    "**/__mocks__",
-    "**/*.test.ts"
-  ]
+  "exclude": ["**/node_modules", "**/build", "**/dist", "**/coverage"]
 }

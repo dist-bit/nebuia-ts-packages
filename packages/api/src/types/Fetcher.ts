@@ -152,17 +152,22 @@ export abstract class NebuiaApiRepository {
       }
       token = response.payload;
     }
-    const response = await axios.request<T>({
+    const axiosConfig = {
       data: body,
       baseURL: this.baseUrl,
       params: query,
       headers: {
         ...headers,
-        Authorization: token ? `Bearer ${token}` : undefined,
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       method,
       url: path,
-    });
+    };
+
+    // eslint-disable-next-line no-console
+    console.log('axiosConfig', JSON.stringify(axiosConfig, null, 2));
+
+    const response = await axios.request<T>(axiosConfig);
 
     return response as AxiosResponse<
       T extends ArrayBuffer

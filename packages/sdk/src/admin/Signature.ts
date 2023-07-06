@@ -1,35 +1,32 @@
 import {
+  NebuiaApiResponse,
   NebuiaSignatureRepository,
   NebuiaSignatureTemplateRepository,
 } from '@nebuia-ts/api';
 
-import { CommonJwtSdk } from '../common/CommonSdk';
+import { CommonJwtSdkUtils } from '../common/CommonJwtSdk';
+import { Credentials } from '../common/CommonSdk';
 
-export class NebuiaSignatureAdmin extends CommonJwtSdk {
-  private readonly _repo: NebuiaSignatureRepository;
-  private readonly _template: NebuiaSignatureTemplateRepository;
+export class NebuiaSignature extends NebuiaSignatureRepository {
+  private readonly _authUtils = new CommonJwtSdkUtils();
 
-  constructor() {
-    super();
-    this._repo = new NebuiaSignatureRepository();
-    this._template = new NebuiaSignatureTemplateRepository();
+  async init(credentials: Credentials): NebuiaApiResponse<string> {
+    return this._authUtils.login(credentials);
   }
 
-  async actions(): Promise<NebuiaSignatureRepository> {
-    const tokenValidation = await this.verifyToken();
-    if (!tokenValidation.status) {
-      throw new Error('Invalid token');
-    }
+  override get token(): NebuiaApiResponse<string> {
+    return this._authUtils.verifyToken();
+  }
+}
 
-    return this._repo;
+export class NebuiaSignatureTemplates extends NebuiaSignatureTemplateRepository {
+  private readonly _authUtils = new CommonJwtSdkUtils();
+
+  async init(credentials: Credentials): NebuiaApiResponse<string> {
+    return this._authUtils.login(credentials);
   }
 
-  async templates(): Promise<NebuiaSignatureTemplateRepository> {
-    const tokenValidation = await this.verifyToken();
-    if (!tokenValidation.status) {
-      throw new Error('Invalid token');
-    }
-
-    return this._template;
+  override get token(): NebuiaApiResponse<string> {
+    return this._authUtils.verifyToken();
   }
 }

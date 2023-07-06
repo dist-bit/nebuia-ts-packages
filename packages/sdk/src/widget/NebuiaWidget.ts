@@ -1,7 +1,7 @@
 import { NebuiaWidgetApiRepository } from '@nebuia-ts/api';
 import { NebuiaKeys } from '@nebuia-ts/models';
 
-import { CommonSdk } from '../common/CommonSdk';
+import CommonSdk from '../common/CommonSdk';
 
 export class NebuiaWidget extends CommonSdk {
   private readonly _repo: NebuiaWidgetApiRepository;

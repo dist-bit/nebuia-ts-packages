@@ -1,21 +1,16 @@
-import { NebuiaAdminApiRepository } from '@nebuia-ts/api';
+import { NebuiaAdminApiRepository, NebuiaApiResponse } from '@nebuia-ts/api';
 
-import { CommonJwtSdk } from '../common/CommonSdk';
+import { CommonJwtSdkUtils } from '../common/CommonJwtSdk';
+import { Credentials } from '../common/CommonSdk';
 
-export class NebuiaAdmin extends CommonJwtSdk {
-  private readonly _repo: NebuiaAdminApiRepository;
+export class NebuiaAdmin extends NebuiaAdminApiRepository {
+  private readonly _authUtils = new CommonJwtSdkUtils();
 
-  constructor() {
-    super();
-    this._repo = new NebuiaAdminApiRepository();
+  async init(credentials: Credentials): NebuiaApiResponse<string> {
+    return this._authUtils.login(credentials);
   }
 
-  async actions(): Promise<NebuiaAdminApiRepository> {
-    const tokenValidation = await this.verifyToken();
-    if (!tokenValidation.status) {
-      throw new Error('Invalid token');
-    }
-
-    return this._repo;
+  override get token(): NebuiaApiResponse<string> {
+    return this._authUtils.verifyToken();
   }
 }

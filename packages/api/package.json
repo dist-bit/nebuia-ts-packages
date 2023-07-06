@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/api",
-  "version": "2.1.9",
+  "version": "2.1.9-rc.1",
   "description": "Api clients for Nebuia (Widget admin adn Signature)",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -11,7 +11,7 @@
     "lint": "pnpm lint:format && pnpm lint:fix ",
     "build": "rollup -c ./rollup.config.js",
     "prepare": "pnpm build",
-    "test": "jest"
+    "test": "dotenv -e .env.jest.local jest"
   },
   "keywords": [],
   "author": "",

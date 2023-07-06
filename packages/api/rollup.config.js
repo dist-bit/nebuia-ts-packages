@@ -19,6 +19,7 @@ module.exports = {
   plugins: [
     typescript({
       declaration: true,
+      tsconfig: 'tsconfig.build.json',
     }),
   ],
 

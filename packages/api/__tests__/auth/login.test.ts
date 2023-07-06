@@ -11,8 +11,8 @@ describe('Verify auth methods', () => {
 
   it('should login with valid credentials and integrate token in others repositories', async () => {
     const repository = new NebuiaAdminApiRepository();
-    const user = 'ulises@distbit.io';
-    const pass = 'Evangelion3.0';
+    const user = process.env['NEBUIA_USER'] ?? '';
+    const pass = process.env['NEBUIA_PASS'] ?? '';
     const response = await repository.login({ email: user, password: pass });
 
     expect(response.status).toBe(true);
@@ -20,7 +20,6 @@ describe('Verify auth methods', () => {
 
     if (response.status) {
       repositoryContainer.initToken(response.payload.token);
-      console.log(response.payload.token);
     }
 
     const documents =
