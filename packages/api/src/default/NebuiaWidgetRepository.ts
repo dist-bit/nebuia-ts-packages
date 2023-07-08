@@ -2,6 +2,7 @@ import {
   convertKeysToHeaders,
   NebuiaAddress,
   NebuiaCompany,
+  NebuiaCompanyWidgetSettings,
   NebuiaIdDocument,
   NebuiaSteps,
 } from '@nebuia-ts/models';
@@ -16,15 +17,15 @@ export class NebuiaWidgetApiRepository
 {
   private _report: string | null = null;
 
-  public get report(): string {
-    if (!this._report) {
-      throw new Error('Report not set');
+  public getReport(omitError = false): string {
+    if (!this._report && !omitError) {
+      throw new Error('Report not found');
     }
 
-    return this._report;
+    return this._report ?? '';
   }
 
-  public set report(value: string) {
+  public setReport(value: string): void {
     this._report = value;
   }
 
@@ -220,9 +221,33 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  private parse(method: 'get' | 'post' | 'put' | 'delete' | 'patch') {
+  async getReportPDF(): NebuiaApiResponse<ArrayBuffer> {
+    return this.requestFile({
+      ...this.parse('get'),
+      path: 'services/report/pdf',
+    });
+  }
+
+  async createReport(): NebuiaApiResponse<string> {
+    return this.request({
+      ...this.parse('post', true),
+      path: 'services/report',
+    });
+  }
+
+  async getCompanyTheme(): NebuiaApiResponse<NebuiaCompanyWidgetSettings> {
+    return this.request({
+      ...this.parse('get', true),
+      path: 'company/theme',
+    });
+  }
+
+  private parse(
+    method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+    omitError = false,
+  ) {
     const keys = this.keys;
-    const report = this.report;
+    const report = this.getReport(omitError);
 
     return {
       method,

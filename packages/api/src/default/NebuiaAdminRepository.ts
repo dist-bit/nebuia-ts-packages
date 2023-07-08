@@ -192,4 +192,77 @@ export class NebuiaAdminApiRepository
       body: { origin: value },
     });
   }
+
+  async getReportPdf({
+    report,
+  }: {
+    report: string;
+  }): NebuiaApiResponse<ArrayBuffer> {
+    const keys = this.keys;
+
+    return this.requestFile({
+      method: 'get',
+      path: 'services/pdf',
+      query: { report },
+      headers: convertKeysToHeaders(keys),
+    });
+  }
+
+  async getReportIDImage({
+    report,
+    side,
+  }: {
+    report: string;
+    side: 'back' | 'front';
+  }): NebuiaApiResponse<ArrayBuffer> {
+    const keys = this.keys;
+
+    return this.requestFile({
+      method: 'get',
+      path: `services/docs/${side}`,
+      headers: convertKeysToHeaders(keys),
+      query: { report, side },
+    });
+  }
+
+  async getReportFaceImage({
+    report,
+  }: {
+    report: string;
+  }): NebuiaApiResponse<ArrayBuffer> {
+    const keys = this.keys;
+
+    return this.requestFile({
+      method: 'get',
+      path: 'services/face',
+      headers: convertKeysToHeaders(keys),
+      query: { report },
+    });
+  }
+
+  async getReportById({
+    report,
+  }: {
+    report: string;
+  }): NebuiaApiResponse<NebuiaReport & { validity: ReportValidity }> {
+    const keys = this.keys;
+
+    const response = await this.request<NebuiaReport>({
+      method: 'get',
+      path: 'services/report',
+      headers: convertKeysToHeaders(keys),
+      query: { report },
+    });
+    if (!response.status) {
+      return response;
+    }
+
+    return {
+      status: true,
+      payload: {
+        ...response.payload,
+        validity: checkNebuiaReportValidity(response.payload).status,
+      },
+    };
+  }
 }

@@ -1,6 +1,7 @@
 import {
   NebuiaAddress,
   NebuiaCompany,
+  NebuiaCompanyWidgetSettings,
   NebuiaIdDocument,
   NebuiaSteps,
 } from '@nebuia-ts/models';
@@ -28,4 +29,7 @@ export interface NebuiaWidgetRepository {
   generateURL(): string;
   generateUrlSMS<T>(phone: string, extension?: string): T;
   saveEmailPhone<T>(arg0: { value: string; toEmail: boolean }): T;
+  getReportPDF(): ArrayBuffer;
+  createReport(): string;
+  getCompanyTheme(): NebuiaCompanyWidgetSettings;
 }

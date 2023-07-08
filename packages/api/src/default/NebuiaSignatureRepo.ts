@@ -1,8 +1,6 @@
 import {
-  AdvancedSignatureCompany,
   AdvancedSignatureSigner,
   AdvancedSignDocument,
-  PartialAdvancedSignerSign,
 } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
@@ -25,7 +23,7 @@ const parseGraphicPlace = (
   };
 };
 
-export class NebuiaSignatureRepository
+export class NebuiaAdminSignatureRepository
   extends NebuiaApiRepository
   implements ParsedApiMethods<NebuiaSignatureRepo>
 {
@@ -59,43 +57,6 @@ export class NebuiaSignatureRepository
         'Content-Type': 'multipart/form-data',
       },
       body: formData,
-    });
-  }
-
-  async getAdvancedSignatureDocumentToSign(): NebuiaApiResponse<{
-    document: AdvancedSignDocument & {
-      company: AdvancedSignatureCompany;
-    };
-    sign: AdvancedSignatureSigner & {
-      partialSigns: PartialAdvancedSignerSign[];
-    };
-  }> {
-    const jwt = this.token;
-
-    return this.request({
-      path: '/advanced-signature/document/signer/invite',
-      method: 'get',
-      jwt,
-    });
-  }
-
-  async getAdvancedSignatureDocumentFileToSign(): NebuiaApiResponse<ArrayBuffer> {
-    const jwt = this.token;
-
-    return this.requestFile({
-      path: '/advanced-signature/document/signer/invite/file',
-      method: 'get',
-      jwt,
-    });
-  }
-
-  async getAdvancedSignatureDocumentBase64FileToSign(): NebuiaApiResponse<string> {
-    const jwt = this.token;
-
-    return this.request({
-      path: '/advanced-signature/document/signer/invite/file/base64',
-      method: 'get',
-      jwt,
     });
   }
 
@@ -134,93 +95,6 @@ export class NebuiaSignatureRepository
       method: 'get',
       path: `/advanced-signature/document/${id}/filled/file`,
       jwt,
-    });
-  }
-
-  async findAdvancedSignaturesByEmail(arg0: {
-    email: string;
-  }): NebuiaApiResponse<
-    {
-      id: string;
-      name: string;
-      description: string | null;
-      createdAt: string;
-      isFilled: boolean;
-      company: { name: string };
-    }[]
-  > {
-    const { email } = arg0;
-
-    return this.request({
-      path: `/advanced-signature/find/email/${email}`,
-      method: 'get',
-    });
-  }
-
-  async requestAdvancedSignatureEmailVerification(arg0: {
-    email: string;
-    documentId: string;
-  }): NebuiaApiResponse<boolean> {
-    const { email, documentId } = arg0;
-
-    return this.request({
-      path: `/advanced-signature/request/email/verification/${documentId}/email/${email}`,
-      method: 'post',
-    });
-  }
-
-  async verifyAdvancedSignatureEmail(arg0: {
-    email: string;
-    documentId: string;
-    code: string;
-  }): NebuiaApiResponse<string> {
-    const { email, documentId, code } = arg0;
-
-    return this.request({
-      path: `/advanced-signature/verify/email/${documentId}/email/${email}/code/${code}`,
-      method: 'post',
-    });
-  }
-
-  async saveAdvancedSignatureGraphSign(arg0: {
-    sign: Blob;
-  }): NebuiaApiResponse<true> {
-    const jwt = this.token;
-    const { sign } = arg0;
-    const formData = new FormData();
-    formData.append('file', sign);
-
-    return this.request({
-      path: '/advanced-signature/sign/save/graphic',
-      method: 'post',
-      jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      body: formData,
-    });
-  }
-
-  async saveAdvancedSignatureFielSign(arg0: {
-    cer: File;
-    key: File;
-    password: string;
-  }): NebuiaApiResponse<true> {
-    const jwt = this.token;
-    const { cer, key, password } = arg0;
-    const formData = new FormData();
-    formData.append('cer', cer);
-    formData.append('key', key);
-    formData.append('password', password);
-
-    return this.request({
-      path: '/advanced-signature/sign/save/fiel',
-      method: 'post',
-      jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-      body: formData,
     });
   }
 

@@ -27,4 +27,12 @@ export type NebuiaAdminRepository = {
   updateCompanyTheme: (arg0: { value: NebuiaCompanyWidgetSettings }) => unknown;
   updateCompanySteps: (arg0: { value: NebuiaStepNames[] }) => unknown;
   invalidateReport: (arg0: WithReport) => unknown;
+  getReportPdf: (arg0: WithReport) => ArrayBuffer;
+  getReportIDImage: (
+    arg0: WithReport<{ side: 'back' | 'front' }>,
+  ) => ArrayBuffer;
+  getReportById: (
+    arg0: WithReport,
+  ) => NebuiaReport & { validity: ReportValidity };
+  getReportFaceImage: (arg0: WithReport) => ArrayBuffer;
 };
