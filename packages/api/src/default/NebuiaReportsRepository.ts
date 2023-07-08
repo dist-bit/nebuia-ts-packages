@@ -1,4 +1,4 @@
-import { convertKeysToHeaders, NebuiaReport } from '@nebuia-ts/models';
+import { NebuiaReport } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
@@ -15,7 +15,7 @@ export class NebuiaReportsApiRepository
     return this.request({
       path: 'services/report',
       method: 'post',
-      headers: convertKeysToHeaders(keys),
+      keys,
     });
   }
 
@@ -26,7 +26,7 @@ export class NebuiaReportsApiRepository
     return this.request({
       path: 'services/report',
       method: 'get',
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report },
     });
   }
@@ -38,7 +38,7 @@ export class NebuiaReportsApiRepository
     return this.requestFile({
       path: 'services/report',
       method: 'get',
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report },
     });
   }

@@ -1,13 +1,13 @@
 import {
+  NebuiaAdminSignatureRepository,
   NebuiaApiResponse,
-  NebuiaSignatureRepository,
   NebuiaSignatureTemplateRepository,
 } from '@nebuia-ts/api';
 
 import { CommonJwtSdkUtils } from '../common/CommonJwtSdk';
 import { Credentials } from '../common/CommonSdk';
 
-export class NebuiaSignature extends NebuiaSignatureRepository {
+export class NebuiaAdminSignature extends NebuiaAdminSignatureRepository {
   private readonly _authUtils = new CommonJwtSdkUtils();
 
   async init(credentials: Credentials): NebuiaApiResponse<string> {
@@ -19,7 +19,7 @@ export class NebuiaSignature extends NebuiaSignatureRepository {
   }
 }
 
-export class NebuiaSignatureTemplates extends NebuiaSignatureTemplateRepository {
+export class NebuiaAdminSignatureTemplates extends NebuiaSignatureTemplateRepository {
   private readonly _authUtils = new CommonJwtSdkUtils();
 
   async init(credentials: Credentials): NebuiaApiResponse<string> {

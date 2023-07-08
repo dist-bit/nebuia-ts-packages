@@ -1,5 +1,4 @@
 import {
-  convertKeysToHeaders,
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
@@ -251,7 +250,7 @@ export class NebuiaWidgetApiRepository
 
     return {
       method,
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report },
     };
   }

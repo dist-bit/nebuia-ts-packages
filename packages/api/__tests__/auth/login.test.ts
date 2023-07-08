@@ -1,18 +1,19 @@
 import { NebuiaAdminApiRepository, NebuiaApiFetcher } from '../../src';
-import { NebuiaSignatureRepository } from '../../src/default/NebuiaSignatureRepo';
+import { NebuiaAdminSignatureRepository } from '../../src/default/NebuiaSignatureRepo';
 
 describe('Verify auth methods', () => {
   const repositoryContainer = new NebuiaApiFetcher();
   const authRepository = new NebuiaAdminApiRepository();
-  const signatureRepository = new NebuiaSignatureRepository();
+  const signatureRepository = new NebuiaAdminSignatureRepository();
 
   repositoryContainer.register(authRepository);
   repositoryContainer.register(signatureRepository);
 
+  const repository = new NebuiaAdminApiRepository();
+  const user = process.env['NEBUIA_USER'] ?? '';
+  const pass = process.env['NEBUIA_PASSWORD'] ?? '';
+
   it('should login with valid credentials and integrate token in others repositories', async () => {
-    const repository = new NebuiaAdminApiRepository();
-    const user = process.env['NEBUIA_USER'] ?? '';
-    const pass = process.env['NEBUIA_PASSWORD'] ?? '';
     const response = await repository.login({ email: user, password: pass });
 
     expect(response.status).toBe(true);
@@ -26,5 +27,23 @@ describe('Verify auth methods', () => {
       await signatureRepository.getMyAdvancedSignatureDocuments();
 
     expect(documents.status).toBe(true);
+  });
+
+  it('should load the keys', async () => {
+    const response = await authRepository.getMyCompany();
+
+    expect(response.status).toBe(true);
+    expect(response.payload).toHaveProperty('keys');
+    if (response.status && response.payload.keys) {
+      repositoryContainer.initKeys({
+        apiKey: response.payload.keys.apiKey ?? '',
+        apiSecret: response.payload.keys.secret_key ?? '',
+      });
+    }
+
+    const response2 = await authRepository.getReportsByCompany();
+
+    expect(response2.status).toBe(true);
+    expect(response2.payload).toBeDefined();
   });
 });

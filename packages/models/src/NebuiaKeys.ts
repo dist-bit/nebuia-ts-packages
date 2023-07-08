@@ -1,14 +1,12 @@
-import { NebuiaRawKeys } from './NebuiaCompany';
-
 export type NebuiaKeys = {
   apiKey: string;
   apiSecret: string;
   keyId?: string;
 };
 
-export function convertKeysToHeaders(keys: NebuiaKeys): NebuiaRawKeys {
+export function convertKeysToHeaders(keys: NebuiaKeys): Record<string, string> {
   return {
-    public_key: keys.apiKey,
-    secret_key: keys.apiSecret,
+    api_key: keys.apiKey,
+    api_secret: keys.apiSecret,
   };
 }

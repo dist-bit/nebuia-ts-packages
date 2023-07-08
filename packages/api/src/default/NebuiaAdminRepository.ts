@@ -1,6 +1,5 @@
 import {
   checkNebuiaReportValidity,
-  convertKeysToHeaders,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
   NebuiaReport,
@@ -104,7 +103,7 @@ export class NebuiaAdminApiRepository
     >({
       path: 'services/reports',
       method: 'get',
-      headers: convertKeysToHeaders(keys),
+      keys,
     });
     if (!result.status) {
       return result;
@@ -129,7 +128,7 @@ export class NebuiaAdminApiRepository
         report,
       },
       jwt,
-      headers: convertKeysToHeaders(keys),
+      keys,
     });
     if (response.status) {
       return {
@@ -204,7 +203,7 @@ export class NebuiaAdminApiRepository
       method: 'get',
       path: 'services/pdf',
       query: { report },
-      headers: convertKeysToHeaders(keys),
+      keys,
     });
   }
 
@@ -220,7 +219,7 @@ export class NebuiaAdminApiRepository
     return this.requestFile({
       method: 'get',
       path: `services/docs/${side}`,
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report, side },
     });
   }
@@ -235,7 +234,7 @@ export class NebuiaAdminApiRepository
     return this.requestFile({
       method: 'get',
       path: 'services/face',
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report },
     });
   }
@@ -250,7 +249,7 @@ export class NebuiaAdminApiRepository
     const response = await this.request<NebuiaReport>({
       method: 'get',
       path: 'services/report',
-      headers: convertKeysToHeaders(keys),
+      keys,
       query: { report },
     });
     if (!response.status) {

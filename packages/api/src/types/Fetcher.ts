@@ -1,4 +1,4 @@
-import { NebuiaKeys } from '@nebuia-ts/models';
+import { convertKeysToHeaders, NebuiaKeys } from '@nebuia-ts/models';
 import Axios, { AxiosResponse } from 'axios';
 
 import { NebuiaApiFetchProps } from './Common';
@@ -35,7 +35,10 @@ export abstract class NebuiaApiRepository {
 
   public get token(): NebuiaApiResponse<string> {
     if (!this._token) {
-      throw new Error('Token not set');
+      return Promise.resolve({
+        status: false,
+        payload: 'Token not set',
+      });
     }
 
     return Promise.resolve({
@@ -48,12 +51,18 @@ export abstract class NebuiaApiRepository {
     this._keys = value;
   }
 
-  public get keys(): NebuiaKeys {
+  public get keys(): NebuiaApiResponse<NebuiaKeys> {
     if (!this._keys) {
-      throw new Error('Keys not set');
+      return Promise.resolve({
+        status: false,
+        payload: 'Keys not set',
+      });
     }
 
-    return this._keys;
+    return Promise.resolve({
+      status: true,
+      payload: this._keys,
+    });
   }
 
   protected async request<T extends Exclude<unknown, ArrayBuffer>>(
@@ -141,8 +150,9 @@ export abstract class NebuiaApiRepository {
       unknown
     >
   > {
-    const { method, path, body, headers, jwt, query } = props;
+    const { method, path, body, headers, jwt, query, keys } = props;
     let token;
+    let parsedKeys;
     if (!!jwt && typeof jwt === 'string') {
       token = jwt;
     } else if (!!jwt && typeof jwt === 'object') {
@@ -152,6 +162,17 @@ export abstract class NebuiaApiRepository {
       }
       token = response.payload;
     }
+
+    if (!!keys && keys instanceof Promise) {
+      const response = await keys;
+      if (!response.status) {
+        throw new Error(response.payload);
+      }
+      parsedKeys = response.payload;
+    } else if (!!keys && typeof keys === 'object') {
+      parsedKeys = keys;
+    }
+
     const axiosConfig = {
       data: body,
       baseURL: this.baseUrl,
@@ -159,6 +180,7 @@ export abstract class NebuiaApiRepository {
       headers: {
         ...headers,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(parsedKeys ? convertKeysToHeaders(parsedKeys) : {}),
       },
       method,
       url: path,

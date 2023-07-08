@@ -1,3 +1,5 @@
+import { NebuiaKeys } from '@nebuia-ts/models';
+
 import { NebuiaApiRepository } from './Fetcher';
 import { NebuiaApiResponse } from './NebuiaResponse';
 
@@ -9,6 +11,7 @@ export type NebuiaApiFetchProps = {
   method: 'get' | 'post' | 'put' | 'patch' | 'delete';
   body?: Record<string, unknown> | string | FormData;
   jwt?: string | NebuiaApiResponse<string>;
+  keys?: NebuiaKeys | NebuiaApiResponse<NebuiaKeys>;
 };
 
 export type ApiMethods<Repo extends NebuiaApiRepository> = {

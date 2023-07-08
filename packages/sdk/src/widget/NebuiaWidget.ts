@@ -1,21 +1,21 @@
-import { NebuiaWidgetApiRepository } from '@nebuia-ts/api';
+import { NebuiaApiResponse, NebuiaWidgetApiRepository } from '@nebuia-ts/api';
 import { NebuiaKeys } from '@nebuia-ts/models';
 
-import CommonSdk from '../common/CommonSdk';
-
-export class NebuiaWidget extends CommonSdk {
-  private readonly _repo: NebuiaWidgetApiRepository;
+export class NebuiaWidget extends NebuiaWidgetApiRepository {
   constructor(keys: NebuiaKeys) {
     super();
-    this._repo = new NebuiaWidgetApiRepository();
-    this._repo.keys = keys;
+    this.keys = keys;
   }
 
-  set report(value: string) {
-    this._repo.report = value;
-  }
+  override async createReport(): NebuiaApiResponse<string> {
+    const response = await super.createReport();
 
-  get actions(): NebuiaWidgetApiRepository {
-    return this._repo;
+    if (!response.status) {
+      return response;
+    }
+
+    this.setReport(response.payload);
+
+    return response;
   }
 }
