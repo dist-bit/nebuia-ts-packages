@@ -1,5 +1,5 @@
 import { NebuiaAdminApiRepository, NebuiaApiResponse } from '@nebuia-ts/api';
-import { NebuiaKeys, NebuiaRawKeys } from '@nebuia-ts/models';
+import { NebuiaCompany, NebuiaKeys, NebuiaRawKeys } from '@nebuia-ts/models';
 
 import { CommonJwtSdkUtils } from '../common/CommonJwtSdk';
 import { Credentials } from '../common/CommonSdk';
@@ -29,22 +29,37 @@ export class NebuiaAdmin extends NebuiaAdminApiRepository {
         return company;
       }
 
-      const { payload } = company;
-      const parsedKeys = this._parseKeys(payload.keys);
+      return this._getKeys();
+    });
+  }
 
-      if (!parsedKeys) {
-        return {
-          status: false,
-          payload: 'Keys not found',
-        };
-      }
+  override async getMyCompany(): NebuiaApiResponse<NebuiaCompany> {
+    const company = await super.getMyCompany();
 
+    if (!company.status) {
+      return company;
+    }
+
+    const { payload } = company;
+    const parsedKeys = this._parseKeys(payload.keys);
+    if (parsedKeys) {
       this._simpleKeys = parsedKeys;
+    }
 
-      return {
-        status: true,
-        payload: parsedKeys,
-      };
+    return company;
+  }
+
+  private async _getKeys(): NebuiaApiResponse<NebuiaKeys> {
+    if (!this._simpleKeys) {
+      return Promise.resolve({
+        status: false,
+        payload: 'company keys not generated',
+      });
+    }
+
+    return Promise.resolve({
+      status: true,
+      payload: this._simpleKeys,
     });
   }
 

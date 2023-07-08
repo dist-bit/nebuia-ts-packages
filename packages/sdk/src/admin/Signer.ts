@@ -1,6 +1,6 @@
 import { NebuiaApiResponse, NebuiaSignerRepository } from '@nebuia-ts/api';
 
-export class NebuiaSignatureTemplates extends NebuiaSignerRepository {
+export class NebuiaSignature extends NebuiaSignerRepository {
   initToken(token: string): void {
     this.token = token;
   }
