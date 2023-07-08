@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/api",
-  "version": "2.2.14",
+  "version": "2.2.16",
   "description": "Api clients for Nebuia (Widget admin adn Signature)",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",

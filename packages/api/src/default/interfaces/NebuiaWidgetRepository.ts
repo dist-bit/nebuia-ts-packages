@@ -2,15 +2,14 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
-  NebuiaIdDocument,
-  NebuiaSteps,
+  NebuiaStepNames,
 } from '@nebuia-ts/models';
 
 export interface NebuiaWidgetRepository {
   checkAuthCode<T>(arg0: string): T;
   getOrigin(): string;
   getStepsCompany(): string[];
-  getStepsFromReport(): NebuiaSteps;
+  getStepsFromReport(): { name: NebuiaStepNames; status: boolean }[];
   getCompanyKeys(): Pick<NebuiaCompany, 'keys' | 'otp'> & { report: string };
   savePhoneNumber<T>(phone: string, extension?: string): T;
   saveEmail<T>(email: string): T;
@@ -22,7 +21,7 @@ export interface NebuiaWidgetRepository {
   };
   qualityFace(arg0: Blob): number;
   analiceID(arg0: Blob): { image: string };
-  uploadID<T>(arg0: NebuiaIdDocument): T;
+  uploadID<T>(arg0: { images: Blob[]; name: 'id' | 'passport' }): T;
   getAddress(arg0: { img: Blob; isPDF: boolean }): NebuiaAddress;
   saveAddress<T>(address: NebuiaAddress): T;
   getFace(): ArrayBuffer;

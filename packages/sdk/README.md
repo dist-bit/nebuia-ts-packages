@@ -221,3 +221,20 @@ nebuia.saveFielSign({
   key: new File([], ''),
 }); // Save the fiel sign of the signer, if required
 ```
+
+### Nebuia Utils
+
+Some utilities to use in client or apis
+
+```typescript
+import { NebuiaReportsUtils } from '@nebuia-ts/sdk';
+
+const nebuia = new NebuiaReportsUtils({
+  apiKey: 'YOUR_API_KEY',
+  apiSecret: 'YOUR_API_SECRET',
+});
+
+nebuia.existReport({ report: 'REPORT_ID' }); // Check if the report exists
+nebuia.generateReport(); // Generate a new report
+nebuia.getPDF({ report: 'REPORT_ID' }); // Get the PDF of the report
+```

@@ -2,8 +2,7 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
-  NebuiaIdDocument,
-  NebuiaSteps,
+  NebuiaStepNames,
 } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
@@ -49,7 +48,9 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async getStepsFromReport(): NebuiaApiResponse<NebuiaSteps> {
+  async getStepsFromReport(): NebuiaApiResponse<
+    { name: NebuiaStepNames; status: boolean }[]
+  > {
     return this.request({
       ...this.parse('get'),
       path: 'services/steps',
@@ -143,12 +144,18 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async uploadID(document: NebuiaIdDocument): NebuiaApiResponse<unknown> {
+  async uploadID({
+    images,
+    name,
+  }: {
+    images: Blob[];
+    name: 'id' | 'passport';
+  }): NebuiaApiResponse<unknown> {
     const body = new FormData();
-    document.images.forEach((img, i) => {
+    images.forEach((img, i) => {
       body.append(i === 0 ? 'front' : 'back', img, 'data.jpg');
     });
-    body.append('document', document.name);
+    body.append('document', name);
 
     return this.request({
       ...this.parse('post'),
