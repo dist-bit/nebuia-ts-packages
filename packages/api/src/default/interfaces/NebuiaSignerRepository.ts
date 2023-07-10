@@ -32,4 +32,6 @@ export interface NebuiaSignerRepo {
   saveGraphSign(arg0: { sign: Blob }): true;
 
   saveFielSign(arg0: { cer: File; key: File; password: string }): true;
+
+  useKyc(arg0: { newKyc: string }): true;
 }

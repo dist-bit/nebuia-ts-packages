@@ -211,6 +211,7 @@ nebuia.verifyEmail({
 }); // Verify the email of the signer, if code is valid, the token is setted
 
 // AUTH REQUIRED METHODS
+nebuia.useKyc({ newKyc: 'SOME_KYC' }); // Use an existing kyc of the signer, this must be unique ni each document
 nebuia.getDocumentToSign(); // Get the document info to sign
 nebuia.getDocumentFileToSign(); // Get the document file to sign
 nebuia.getDocumentBase64FileToSign(); // Get the document file to sign in base64

@@ -7,6 +7,17 @@ export class NebuiaSignerRepository
   extends NebuiaApiRepository
   implements ParsedApiMethods<NebuiaSignerRepo>
 {
+  async useKyc(arg0: { newKyc: string }): NebuiaApiResponse<true> {
+    const jwt = this.token;
+
+    return this.request({
+      path: '/advanced-signature/signer/use-kyc',
+      method: 'put',
+      jwt,
+      body: { kyc: arg0.newKyc },
+    });
+  }
+
   async getDocumentToSign(): NebuiaApiResponse<NebuiaSignerDocument> {
     const jwt = this.token;
 
