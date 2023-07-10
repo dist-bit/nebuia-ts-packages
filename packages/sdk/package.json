@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/sdk",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
@@ -12,7 +12,7 @@
   "scripts": {
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
     "lint": "pnpm lint:format && pnpm lint:fix ",
-    "build": "rollup -c ./rollup.config.js",
+    "build": "rimraf dist && rollup -c ./rollup.config.js",
     "prepare": "pnpm build",
     "test": "dotenv -e .env.jest.local jest"
   },

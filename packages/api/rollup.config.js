@@ -1,4 +1,5 @@
 const typescript = require('@rollup/plugin-typescript');
+const terser = require('@rollup/plugin-terser');
 
 module.exports = {
   input: 'src/index.ts',
@@ -8,12 +9,14 @@ module.exports = {
       format: 'cjs',
       exports: 'named',
       sourcemap: true,
+      plugins: [terser()],
     },
     {
       file: 'dist/esm/index.js',
       format: 'esm',
       exports: 'named',
       sourcemap: true,
+      plugins: [terser()],
     },
   ],
   plugins: [
