@@ -10,7 +10,7 @@ This package is part of the [Nebuia](https://nebuia.com) organization.
 npm install @nebuia-ts/sdk
 ```
 
-## Usage
+## Common types
 
 All async operations return the same type of object in a promise:
 
@@ -35,7 +35,16 @@ if(!response.status) {
 }
 ```
 
+## Usage
+
 This packages contains the following modules divided by their application context:
+
+- [Nebuia Widget](#nebuia-widget)
+- [Nebuia Admin](#nebuia-admin)
+- [Nebuia Signature Admin](#nebuia-signature-admin)
+- [Nebuia Signature Template Admin](#nebuia-signature-template-admin)
+- [Nebuia Signature](#nebuia-signature)
+- [Nebuia Utils](#nebuia-utils)
 
 ### Nebuia Widget
 
