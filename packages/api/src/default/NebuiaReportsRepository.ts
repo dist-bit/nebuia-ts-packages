@@ -36,7 +36,7 @@ export class NebuiaReportsApiRepository
     const { report } = arg0;
 
     return this.requestFile({
-      path: 'services/report',
+      path: 'services/pdf',
       method: 'get',
       keys,
       query: { report },

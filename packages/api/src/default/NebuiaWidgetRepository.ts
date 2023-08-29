@@ -43,7 +43,7 @@ export class NebuiaWidgetApiRepository
 
   async getStepsCompany(): NebuiaApiResponse<string[]> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse('get', true),
       path: 'steps/company',
     });
   }
@@ -176,6 +176,7 @@ export class NebuiaWidgetApiRepository
 
     return this.request({
       ...this.parse('post'),
+      body,
       path: 'services/address',
     });
   }
@@ -184,7 +185,7 @@ export class NebuiaWidgetApiRepository
     const body = JSON.parse(JSON.stringify(address)) as Record<string, unknown>;
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse('put'),
       path: 'services/address',
       body,
     });
@@ -223,7 +224,7 @@ export class NebuiaWidgetApiRepository
     return this.request({
       ...this.parse('put'),
       path: `services/${toEmail ? 'email' : 'phone'}`,
-      body: toEmail ? { email: value } : { phone: `+52${value}` },
+      body: toEmail ? { email: value } : { phone: value },
     });
   }
 
@@ -244,7 +245,7 @@ export class NebuiaWidgetApiRepository
   async getCompanyTheme(): NebuiaApiResponse<NebuiaCompanyWidgetSettings> {
     return this.request({
       ...this.parse('get', true),
-      path: 'company/theme',
+      path: 'theme/company',
     });
   }
 

@@ -70,16 +70,36 @@ export abstract class NebuiaApiRepository {
   ): NebuiaApiResponse<T> {
     try {
       const response = await this.prepareRequest<T>(props);
-      if (response.status) {
+
+      if (
+        response.data instanceof ArrayBuffer &&
+        props.responseType === 'arraybuffer'
+      ) {
         return {
           status: true,
-          payload: response.data[this.config.successDataProp] as T,
+          payload: response.data as T,
+        };
+      }
+
+      const data = response.data;
+
+      if (!('status' in data)) {
+        return {
+          status: false,
+          payload: 'Invalid response',
+        };
+      }
+
+      if (data['status']) {
+        return {
+          status: true,
+          payload: data[this.config.successDataProp] as T,
         };
       }
 
       return {
         status: false,
-        payload: response.data[this.config.errorDataProp] as string,
+        payload: data[this.config.errorDataProp] as string,
       };
     } catch (e) {
       return {
@@ -95,23 +115,14 @@ export abstract class NebuiaApiRepository {
     try {
       const response = await this.prepareRequest<ArrayBuffer>({
         ...props,
+        responseType: 'arraybuffer',
         headers: {
           ...props.headers,
-          // responseType: 'arraybuffer',
-          responseType: 'arraybuffer',
         },
       });
-      const contentHeaders = [
-        'content-type',
-        'Content-Type',
-        'Content-type',
-        'content-Type',
-      ];
-      const hasJsonHeader = contentHeaders.some((header) =>
-        String(response.headers[header]).includes('application/json'),
-      );
-
-      if (!hasJsonHeader) {
+      if (
+        !String(response.headers['content-type']).includes('application/json')
+      ) {
         return {
           status: true,
           payload: response.data,
@@ -150,7 +161,8 @@ export abstract class NebuiaApiRepository {
       unknown
     >
   > {
-    const { method, path, body, headers, jwt, query, keys } = props;
+    const { method, path, body, headers, jwt, query, keys, responseType } =
+      props;
     let token;
     let parsedKeys;
     if (!!jwt && typeof jwt === 'string') {
@@ -186,7 +198,10 @@ export abstract class NebuiaApiRepository {
       url: path,
     };
 
-    const response = await axios.request<T>(axiosConfig);
+    const response = await axios.request<T>({
+      ...axiosConfig,
+      ...(responseType ? { responseType } : {}),
+    });
 
     return response as AxiosResponse<
       T extends ArrayBuffer
