@@ -64,7 +64,7 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: 1.1.7
+        specifier: 1.1.8
         version: link:../models
       axios:
         specifier: ^1.4.0
@@ -75,11 +75,11 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 2.2.28
+        specifier: 2.2.30
         version: link:../api
       '@nebuia-ts/models':
-        specifier: 1.1.6
-        version: 1.1.6
+        specifier: 1.1.8
+        version: link:../models
 
   packages/utils:
     dependencies:
@@ -785,10 +785,6 @@ packages:
 
   /@nebuia-ts/models@1.1.3:
     resolution: {integrity: sha512-9bactZ6gfAoqRfh6LxBhkHmMCUUHj9JVGmpD8gYJmOdehxSXiTGlpG15XYnbz5lu04M/cSWLpYprzGh07bNcaw==}
-    dev: false
-
-  /@nebuia-ts/models@1.1.6:
-    resolution: {integrity: sha512-yw44givC559asYRtkDy2FxN61jcbP2MrgpT+m2t5bym/BpU0ZIKofWT92AC7z9o+senJOio+i6EeGQRWyMeFlg==}
     dev: false
 
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:

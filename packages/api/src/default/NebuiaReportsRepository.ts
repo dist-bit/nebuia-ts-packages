@@ -42,4 +42,12 @@ export class NebuiaReportsApiRepository
       query: { report },
     });
   }
+
+  async verifyKeys(): NebuiaApiResponse<unknown> {
+    return this.request({
+      method: 'get',
+      path: 'services/keys/valid',
+      keys: this.keys,
+    });
+  }
 }

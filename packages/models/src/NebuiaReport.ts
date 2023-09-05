@@ -1,3 +1,5 @@
+import { NebuiaAddress } from './NebuiaAddress';
+
 export interface NebuiaDocumentCheckDigitDocumentNumber {
   value?: string;
   hash?: string;
@@ -122,11 +124,17 @@ export interface NebuiaFace {
   match?: NebuiaFaceMatch;
 }
 
+export interface NebuiaOtp {
+  secret?: string;
+}
+
 export interface NebuiaReport {
-  id?: string;
-  company?: string;
+  id: string;
+  company: string;
   face?: NebuiaFace;
   document?: NebuiaDocument;
+  address?: NebuiaAddress;
+  otp?: NebuiaOtp;
   email?: {
     email: string;
     verified: boolean;

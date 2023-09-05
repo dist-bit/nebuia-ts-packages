@@ -1,40 +1,38 @@
-import { Optional } from './Common';
-
 export interface NebuiaAddressVerifications {
-  description?: Optional<string>;
-  status?: Optional<boolean>;
-  note?: Optional<string>;
+  description?: string;
+  status?: boolean;
+  note?: string;
 }
 
 class NebuiaAddressZone {
-  zipCode?: Optional<string>;
-  township?: Optional<string>;
-  townshipType?: Optional<string>;
-  municipality?: Optional<string>;
-  state?: Optional<string>;
-  cpId?: Optional<string>;
-  stateId?: Optional<string>;
-  officeId?: Optional<string>;
-  townshipTypeId?: Optional<string>;
-  municipalityId?: Optional<string>;
-  townshipZipTypeId?: Optional<string>;
-  zone?: Optional<string>;
+  zipCode?: string;
+  township?: string;
+  townshipType?: string;
+  municipality?: string;
+  state?: string;
+  cpId?: string;
+  stateId?: string;
+  officeId?: string;
+  townshipTypeId?: string;
+  municipalityId?: string;
+  townshipZipTypeId?: string;
+  zone?: string;
 }
 
 class NebuiaAddressState {
-  completeName: Optional<string>;
-  abbreviation: Optional<string>;
-  renapo: Optional<string>;
-  twoDigits: Optional<string>;
-  threeDigitsNomenclature: Optional<string>;
-  key: Optional<string>;
+  completeName?: string;
+  abbreviation?: string;
+  renapo?: string;
+  twoDigits?: string;
+  threeDigitsNomenclature?: string;
+  key?: string;
 }
 
 export interface NebuiaAddress {
-  address?: Optional<string[]>;
-  verifications?: Optional<NebuiaAddressVerifications[]>;
-  zone?: Optional<NebuiaAddressZone>;
-  state?: Optional<NebuiaAddressState>;
-  exact?: Optional<boolean>;
-  valid?: Optional<boolean>;
+  address?: string[];
+  verifications?: NebuiaAddressVerifications[];
+  zone?: NebuiaAddressZone;
+  state?: NebuiaAddressState;
+  exact?: boolean;
+  valid?: boolean;
 }
