@@ -1,6 +1,7 @@
 import { AdvSigTemplateDocument } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaSignatureTemplateRepo } from './interfaces/NebuiaSignatureTemplateRepo';
 
@@ -78,7 +79,8 @@ export class NebuiaSignatureTemplateRepository
 
     const parsedTemplate = parseTemplate(template, currentScale, expectedScale);
 
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     body.append('document', file);
     body.append('template', JSON.stringify(parsedTemplate));
 
@@ -86,9 +88,6 @@ export class NebuiaSignatureTemplateRepository
       method: 'post',
       path: '/advanced-signature-templates',
       jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body,
     });
   }

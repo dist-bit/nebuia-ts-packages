@@ -4,6 +4,7 @@ import {
 } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { CreateAdvancedSignatureDTO } from './dto/NebuiaSignatureDTOs';
 import { NebuiaSignatureRepo } from './interfaces/NebuiaSignatureRepo';
@@ -35,7 +36,8 @@ export class NebuiaAdminSignatureRepository
     arg0: CreateAdvancedSignatureDTO,
   ): NebuiaApiResponse<true> {
     const jwt = this.token;
-    const formData = new FormData();
+    const formData = new IsomorphicFormData();
+    await formData.init();
     const { document, ...data } = arg0;
     formData.append('file', document);
     formData.append(
@@ -53,9 +55,6 @@ export class NebuiaAdminSignatureRepository
       path: '/advanced-signature',
       method: 'post',
       jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body: formData,
     });
   }

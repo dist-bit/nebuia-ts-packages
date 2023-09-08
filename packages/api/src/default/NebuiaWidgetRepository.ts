@@ -6,6 +6,7 @@ import {
 } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaWidgetRepository } from './interfaces/NebuiaWidgetRepository';
 
@@ -112,7 +113,8 @@ export class NebuiaWidgetApiRepository
   async analiceFace(
     img: Blob,
   ): NebuiaApiResponse<{ score: number; status: boolean }> {
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     body.append('face', img, 'data.jpg');
 
     return this.request({
@@ -123,7 +125,8 @@ export class NebuiaWidgetApiRepository
   }
 
   async qualityFace(img: Blob): NebuiaApiResponse<number> {
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     body.append('face', img, 'data.jpg');
 
     return this.request({
@@ -134,7 +137,8 @@ export class NebuiaWidgetApiRepository
   }
 
   async analiceID(img: Blob): NebuiaApiResponse<{ image: string }> {
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     body.append('front', img, 'data.jpg');
 
     return this.request({
@@ -151,7 +155,8 @@ export class NebuiaWidgetApiRepository
     images: Blob[];
     name: 'id' | 'passport';
   }): NebuiaApiResponse<unknown> {
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     images.forEach((img, i) => {
       body.append(i === 0 ? 'front' : 'back', img, 'data.jpg');
     });
@@ -171,7 +176,8 @@ export class NebuiaWidgetApiRepository
     img: Blob;
     isPDF: boolean;
   }): NebuiaApiResponse<NebuiaAddress> {
-    const body = new FormData();
+    const body = new IsomorphicFormData();
+    await body.init();
     body.append('document', img, isPDF ? 'data.pdf' : 'data.jpg');
 
     return this.request({

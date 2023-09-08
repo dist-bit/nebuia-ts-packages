@@ -1,4 +1,5 @@
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaSignerDocument } from './dto/NebuiaSignerDTO';
 import { NebuiaSignerRepo } from './interfaces/NebuiaSignerRepository';
@@ -99,16 +100,14 @@ export class NebuiaSignerRepository
   async saveGraphSign(arg0: { sign: Blob }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { sign } = arg0;
-    const formData = new FormData();
+    const formData = new IsomorphicFormData();
+    await formData.init();
     formData.append('file', sign);
 
     return this.request({
       path: '/advanced-signature/sign/save/graphic',
       method: 'post',
       jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body: formData,
     });
   }
@@ -120,7 +119,8 @@ export class NebuiaSignerRepository
   }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { cer, key, password } = arg0;
-    const formData = new FormData();
+    const formData = new IsomorphicFormData();
+    await formData.init();
     formData.append('cer', cer);
     formData.append('key', key);
     formData.append('password', password);
@@ -129,9 +129,6 @@ export class NebuiaSignerRepository
       path: '/advanced-signature/sign/save/fiel',
       method: 'post',
       jwt,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
       body: formData,
     });
   }

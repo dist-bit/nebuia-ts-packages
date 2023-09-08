@@ -2,6 +2,7 @@ import { convertKeysToHeaders, NebuiaKeys } from '@nebuia-ts/models';
 import Axios, { AxiosResponse } from 'axios';
 
 import { NebuiaApiFetchProps } from './Common';
+import { IsomorphicFormData } from './FormData';
 import { NebuiaApiResponse } from './NebuiaResponse';
 
 const NebuiaApiUrl = 'https://api.nebuia.com/api/v1';
@@ -184,15 +185,17 @@ export abstract class NebuiaApiRepository {
     } else if (!!keys && typeof keys === 'object') {
       parsedKeys = keys;
     }
-
+    const parsedBody =
+      body instanceof IsomorphicFormData ? body.formData : body;
     const axiosConfig = {
-      data: body,
+      data: parsedBody,
       baseURL: this.baseUrl,
       params: query,
       headers: {
         ...headers,
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(parsedKeys ? convertKeysToHeaders(parsedKeys) : {}),
+        ...(parsedBody instanceof IsomorphicFormData ? parsedBody.headers : {}),
       },
       method,
       url: path,

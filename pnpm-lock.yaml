@@ -69,13 +69,16 @@ importers:
       axios:
         specifier: ^1.4.0
         version: 1.4.0
+      form-data:
+        specifier: ^4.0.0
+        version: 4.0.0
 
   packages/models: {}
 
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 2.2.30
+        specifier: 2.2.31
         version: link:../api
       '@nebuia-ts/models':
         specifier: 1.1.8

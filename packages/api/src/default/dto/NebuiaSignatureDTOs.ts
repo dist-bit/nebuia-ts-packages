@@ -3,10 +3,13 @@ import { AdvancedSignType } from '@nebuia-ts/models';
 export interface CreateAdvancedSignatureDTO {
   signs: AdvancedSignType[];
   requiresKYC: boolean;
-  emails: string[];
+  signers: {
+    email: string;
+    kyc?: string;
+  }[];
   name: string;
   description?: string;
-  document: File | Blob;
+  document: Blob | Buffer;
   graphicSign?: {
     x: number;
     y: number;
