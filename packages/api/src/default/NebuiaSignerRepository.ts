@@ -97,12 +97,12 @@ export class NebuiaSignerRepository
     return response;
   }
 
-  async saveGraphSign(arg0: { sign: Blob }): NebuiaApiResponse<true> {
+  async saveGraphSign(arg0: { sign: Blob | Buffer }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { sign } = arg0;
     const formData = new IsomorphicFormData();
     await formData.init();
-    formData.append('file', sign);
+    formData.append('file', sign, 'sign.png');
 
     return this.request({
       path: '/advanced-signature/sign/save/graphic',
@@ -113,16 +113,16 @@ export class NebuiaSignerRepository
   }
 
   async saveFielSign(arg0: {
-    cer: File;
-    key: File;
+    cer: Blob | Buffer;
+    key: Blob | Buffer;
     password: string;
   }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { cer, key, password } = arg0;
     const formData = new IsomorphicFormData();
     await formData.init();
-    formData.append('cer', cer);
-    formData.append('key', key);
+    formData.append('cer', cer, 'cer.cer');
+    formData.append('key', key, 'key.key');
     formData.append('password', password);
 
     return this.request({

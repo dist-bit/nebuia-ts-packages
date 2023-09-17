@@ -11,11 +11,9 @@ export class NebuiaSignature extends NebuiaSignerRepository {
     code: string;
   }): NebuiaApiResponse<string> {
     const response = await super.verifyEmail(arg0);
-    if (!response.status) {
-      return response;
+    if (response.status) {
+      this.token = response.payload;
     }
-
-    this.token = response.payload;
 
     return response;
   }

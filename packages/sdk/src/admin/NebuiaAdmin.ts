@@ -36,17 +36,19 @@ export class NebuiaAdmin extends NebuiaAdminApiRepository {
   override async getMyCompany(): NebuiaApiResponse<NebuiaCompany> {
     const company = await super.getMyCompany();
 
-    if (!company.status) {
-      return company;
-    }
-
-    const { payload } = company;
-    const parsedKeys = this._parseKeys(payload.keys);
-    if (parsedKeys) {
-      this._simpleKeys = parsedKeys;
+    if (company.status) {
+      const { payload } = company;
+      this._updateKeys(payload);
     }
 
     return company;
+  }
+
+  private _updateKeys(company: NebuiaCompany) {
+    const parsedKeys = this._getParsedKeys(company.keys);
+    if (parsedKeys) {
+      this._simpleKeys = parsedKeys;
+    }
   }
 
   private async _getKeys(): NebuiaApiResponse<NebuiaKeys> {
@@ -63,7 +65,7 @@ export class NebuiaAdmin extends NebuiaAdminApiRepository {
     });
   }
 
-  private _parseKeys(keys?: NebuiaRawKeys): NebuiaKeys | null {
+  private _getParsedKeys(keys?: NebuiaRawKeys): NebuiaKeys | null {
     if (!keys) {
       return null;
     }

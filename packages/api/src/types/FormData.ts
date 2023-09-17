@@ -25,7 +25,7 @@ export class IsomorphicFormData {
     return (this.formData as NodeFormData).getHeaders();
   }
 
-  append(name: string, value: Blob | Buffer, fileName?: string): void;
+  append(name: string, value: Blob | Buffer, fileName: string): void;
   append(name: string, value: string): void;
 
   append(name: string, value: Blob | Buffer | string, fileName?: string): void {
@@ -33,19 +33,18 @@ export class IsomorphicFormData {
     if (typeof value !== 'string') {
       this._checkTypeValidity(value);
     }
-    if (env === 'browser') {
-      if (fileName) {
-        (this.formData as FormData).append(name, value as Blob, fileName);
-      } else {
-        (this.formData as FormData).append(name, value as string);
-      }
+    if (env === 'node') {
+      (this.formData as NodeFormData).append(name, value, {
+        filename: fileName,
+      });
 
       return;
     }
-
-    (this.formData as NodeFormData).append(name, value, {
-      filename: fileName,
-    });
+    if (fileName) {
+      (this.formData as FormData).append(name, value as Blob, fileName);
+    } else {
+      (this.formData as FormData).append(name, value as string);
+    }
   }
 
   get formData(): NodeFormData | FormData {

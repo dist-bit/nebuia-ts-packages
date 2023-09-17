@@ -26,5 +26,5 @@ module.exports = {
     }),
   ],
 
-  external: ['axios', '@nebuia-ts/models'],
+  external: ['axios', '@nebuia-ts/models', 'form-data'],
 };

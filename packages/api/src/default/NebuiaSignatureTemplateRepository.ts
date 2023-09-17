@@ -70,7 +70,7 @@ export class NebuiaSignatureTemplateRepository
 
   async saveAdvSigTemplate(arg0: {
     template: Omit<AdvSigTemplateDocument, 'company' | 'id'>;
-    file: File;
+    file: Blob | Buffer;
   }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { template, file } = arg0;
@@ -81,7 +81,7 @@ export class NebuiaSignatureTemplateRepository
 
     const body = new IsomorphicFormData();
     await body.init();
-    body.append('document', file);
+    body.append('document', file, 'document.pdf');
     body.append('template', JSON.stringify(parsedTemplate));
 
     return this.request({
@@ -121,7 +121,7 @@ export class NebuiaSignatureTemplateRepository
   async createAdvSigByTemplate(arg0: {
     data: {
       templateId: string;
-      signers: { email: string; kycId?: string | undefined }[];
+      signers: { email: string; kycId?: string }[];
     };
   }): NebuiaApiResponse<true> {
     const jwt = this.token;

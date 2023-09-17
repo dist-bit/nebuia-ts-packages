@@ -39,7 +39,7 @@ export class NebuiaAdminSignatureRepository
     const formData = new IsomorphicFormData();
     await formData.init();
     const { document, ...data } = arg0;
-    formData.append('file', document);
+    formData.append('file', document, 'document.pdf');
     formData.append(
       'document',
       JSON.stringify({

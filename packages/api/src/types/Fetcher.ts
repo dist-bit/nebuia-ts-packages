@@ -105,7 +105,7 @@ export abstract class NebuiaApiRepository {
     } catch (e) {
       return {
         status: false,
-        payload: this.parseError(e),
+        payload: this._parseError(e),
       };
     }
   }
@@ -147,7 +147,7 @@ export abstract class NebuiaApiRepository {
     } catch (e) {
       return {
         status: false,
-        payload: this.parseError(e),
+        payload: this._parseError(e),
       };
     }
   }
@@ -164,27 +164,9 @@ export abstract class NebuiaApiRepository {
   > {
     const { method, path, body, headers, jwt, query, keys, responseType } =
       props;
-    let token;
-    let parsedKeys;
-    if (!!jwt && typeof jwt === 'string') {
-      token = jwt;
-    } else if (!!jwt && typeof jwt === 'object') {
-      const response = await jwt;
-      if (!response.status) {
-        throw new Error(response.payload);
-      }
-      token = response.payload;
-    }
+    const token = await this._parseToken(jwt);
+    const parsedKeys = await this._parseKeys(keys);
 
-    if (!!keys && keys instanceof Promise) {
-      const response = await keys;
-      if (!response.status) {
-        throw new Error(response.payload);
-      }
-      parsedKeys = response.payload;
-    } else if (!!keys && typeof keys === 'object') {
-      parsedKeys = keys;
-    }
     const parsedBody =
       body instanceof IsomorphicFormData ? body.formData : body;
     const axiosConfig = {
@@ -216,7 +198,37 @@ export abstract class NebuiaApiRepository {
     >;
   }
 
-  private parseError(error: unknown): string {
+  private async _parseToken(jwt?: string | NebuiaApiResponse<string>) {
+    if (!jwt) {
+      return;
+    }
+    if (typeof jwt === 'string') {
+      return jwt;
+    }
+    const response = await jwt;
+    if (!response.status) {
+      throw new Error(response.payload);
+    }
+
+    return response.payload;
+  }
+
+  private async _parseKeys(keys?: NebuiaKeys | NebuiaApiResponse<NebuiaKeys>) {
+    if (!keys) {
+      return;
+    }
+    if (!(keys instanceof Promise)) {
+      return keys;
+    }
+    const response = await keys;
+    if (!response.status) {
+      throw new Error(response.payload);
+    }
+
+    return response.payload;
+  }
+
+  private _parseError(error: unknown): string {
     if (error instanceof Error) {
       return error.message;
     }

@@ -7,7 +7,7 @@ export interface NebuiaSignatureTemplateRepo {
   })[];
   saveAdvSigTemplate: (arg0: {
     template: Omit<AdvSigTemplateDocument, 'id' | 'company'>;
-    file: File;
+    file: Blob | Buffer;
   }) => true;
   getAdvSigTemplate: (arg0: { id: string }) => {
     template: AdvSigTemplateDocument;
