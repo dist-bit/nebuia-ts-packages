@@ -78,7 +78,7 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 2.2.38
+        specifier: 2.2.41
         version: link:../api
       '@nebuia-ts/models':
         specifier: 1.1.8

@@ -2,6 +2,7 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
+  NebuiaReport,
   NebuiaStepNames,
 } from '@nebuia-ts/models';
 
@@ -31,4 +32,5 @@ export interface NebuiaWidgetRepository {
   getReportPDF(): ArrayBuffer;
   createReport(): string;
   getCompanyTheme(): NebuiaCompanyWidgetSettings;
+  getReportObject(): NebuiaReport;
 }

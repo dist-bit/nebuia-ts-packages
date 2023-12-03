@@ -2,6 +2,7 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanyWidgetSettings,
+  NebuiaReport,
   NebuiaStepNames,
 } from '@nebuia-ts/models';
 
@@ -252,6 +253,13 @@ export class NebuiaWidgetApiRepository
     return this.request({
       ...this.parse('get', true),
       path: 'theme/company',
+    });
+  }
+
+  async getReportObject(): NebuiaApiResponse<NebuiaReport> {
+    return this.request({
+      ...this.parse('get', true),
+      path: 'services/report',
     });
   }
 

@@ -17,7 +17,7 @@
     "test": "dotenv -e .env.jest.local jest"
   },
   "dependencies": {
-    "@nebuia-ts/api": "2.2.40",
+    "@nebuia-ts/api": "2.2.41",
     "@nebuia-ts/models": "1.1.8"
   },
   "files": [
