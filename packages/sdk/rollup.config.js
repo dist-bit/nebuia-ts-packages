@@ -3,18 +3,12 @@ const terser = require('@rollup/plugin-terser');
 
 module.exports = {
   input: 'src/index.ts',
+  treeshake: true,
   output: [
-    {
-      file: 'dist/cjs/index.js',
-      format: 'cjs',
-      sourcemap: true,
-      plugins: [terser()],
-    },
     {
       file: 'dist/esm/index.js',
       format: 'esm',
       sourcemap: true,
-      plugins: [terser()],
     },
   ],
   plugins: [
@@ -22,6 +16,7 @@ module.exports = {
       declaration: true,
       tsconfig: 'tsconfig.build.json',
     }),
+    terser(),
   ],
   external: ['@nebuia-ts/api', '@nebuia-ts/models'],
 };
