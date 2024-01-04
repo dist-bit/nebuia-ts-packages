@@ -3,23 +3,18 @@ const terser = require('@rollup/plugin-terser');
 
 module.exports = {
   input: 'src/index.ts',
+  treeshake: true,
   output: [
     {
-      file: 'dist/cjs/index.js',
-      format: 'cjs',
-      sourcemap: true,
-      plugins: [terser()],
-    },
-    {
-      file: 'dist/esm/index.js',
+      file: 'dist/index.js',
       format: 'esm',
       sourcemap: true,
-      plugins: [terser()],
     },
   ],
   plugins: [
     typescript({
       declaration: true,
     }),
+    terser(),
   ],
 };
