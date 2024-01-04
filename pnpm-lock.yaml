@@ -64,11 +64,11 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: 1.1.8
+        specifier: 2.1.8
         version: link:../models
       axios:
-        specifier: 1.5.0
-        version: 1.5.0
+        specifier: 1.6.4
+        version: 1.6.4
       form-data:
         specifier: 4.0.0
         version: 4.0.0
@@ -79,10 +79,10 @@ importers:
     dependencies:
       '@nebuia-ts/api':
         specifier: 2.2.41
-        version: link:../api
+        version: 2.2.41(@nebuia-ts/models@1.1.8)(axios@1.5.0)(form-data@4.0.0)
       '@nebuia-ts/models':
         specifier: 1.1.8
-        version: link:../models
+        version: 1.1.8
 
 packages:
 
@@ -780,6 +780,22 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
 
+  /@nebuia-ts/api@2.2.41(@nebuia-ts/models@1.1.8)(axios@1.5.0)(form-data@4.0.0):
+    resolution: {integrity: sha512-/GDHZLQtYF373dMRXnIJb+yGiWsJ1O4/eTf10AlkeKlyrrdsrV7C8Wu1lvOzmq4z9cXXPu3UpL0dWD02a1eBvA==}
+    peerDependencies:
+      '@nebuia-ts/models': 1.1.8
+      axios: 1.5.0
+      form-data: 4.0.0
+    dependencies:
+      '@nebuia-ts/models': 1.1.8
+      axios: 1.5.0
+      form-data: 4.0.0
+    dev: false
+
+  /@nebuia-ts/models@1.1.8:
+    resolution: {integrity: sha512-a3Fg+CcS3ZRcYugb4KeaXLsr3vN15vYF2JujZ4YUN179mqAhluB8qr7HM48hGaSKCSZA/KW+jlGbRJVBjqmRaQ==}
+    dev: false
+
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
     dependencies:
@@ -1364,6 +1380,16 @@ packages:
     resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
     dependencies:
       follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios@1.6.4:
+    resolution: {integrity: sha512-heJnIs6N4aa1eSthhN9M5ioILu8Wi8vmQW9iHQ9NUvfkJb0lEEDUiIdQNAuBtfUt3FxReaKdpQA5DbmMOqzF/A==}
+    dependencies:
+      follow-redirects: 1.15.4
       form-data: 4.0.0
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -2314,6 +2340,16 @@ packages:
 
   /follow-redirects@1.15.2:
     resolution: {integrity: sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dev: false
+
+  /follow-redirects@1.15.4:
+    resolution: {integrity: sha512-Cr4D/5wlrb0z9dgERpUL3LrmPKVDsETIJhaCMeDfuFYcqa5bldGV6wBsAN6X/vxlXQtFBMrXdXxdL8CbDTGniw==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
