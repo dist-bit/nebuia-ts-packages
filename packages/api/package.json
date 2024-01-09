@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/api",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Api clients for Nebuia (Widget admin adn Signature)",
   "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
@@ -18,13 +18,13 @@
   "license": "ISC",
   "dependencies": {
     "@nebuia-ts/models": "2.1.9",
-    "axios": "1.6.4",
+    "axios": "1.6.5",
     "form-data": "4.0.0"
   },
   "peerDependencies": {
-    "axios": "1.6.4",
+    "axios": "1.6.5",
     "form-data": "4.0.0",
-    "@nebuia-ts/models": "2.1.8"
+    "@nebuia-ts/models": "2.1.9"
   },
   "files": [
     "dist",
