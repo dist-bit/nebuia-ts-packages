@@ -21,8 +21,8 @@
     "@nebuia-ts/models": "2.1.9"
   },
   "peerDependencies": {
-    "@nebuia-ts/api": "3.0.0",
-    "@nebuia-ts/models": "2.1.8"
+    "@nebuia-ts/api": "3.0.1",
+    "@nebuia-ts/models": "2.1.9"
   },
   "files": [
     "dist",
