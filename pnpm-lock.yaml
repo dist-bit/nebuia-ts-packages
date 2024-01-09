@@ -78,11 +78,11 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 3.0.0
-        version: 3.0.0(@nebuia-ts/models@2.1.8)(axios@1.6.4)(form-data@4.0.0)
+        specifier: 3.0.1
+        version: link:../api
       '@nebuia-ts/models':
-        specifier: 2.1.8
-        version: 2.1.8
+        specifier: 2.1.9
+        version: link:../models
 
 packages:
 
@@ -993,22 +993,6 @@ packages:
       '@jridgewell/resolve-uri': 3.1.0
       '@jridgewell/sourcemap-codec': 1.4.14
     dev: true
-
-  /@nebuia-ts/api@3.0.0(@nebuia-ts/models@2.1.8)(axios@1.6.4)(form-data@4.0.0):
-    resolution: {integrity: sha512-EmZU8jtkViYy3wcMqYKZL+jt6SKXy5y5yNNuEmd06VMSEEQjyJmZRJKCdxkiBAkRh5qdnPNHq1PCwlkaATThOA==}
-    peerDependencies:
-      '@nebuia-ts/models': 2.1.8
-      axios: 1.6.4
-      form-data: 4.0.0
-    dependencies:
-      '@nebuia-ts/models': 2.1.8
-      axios: 1.6.4
-      form-data: 4.0.0
-    dev: false
-
-  /@nebuia-ts/models@2.1.8:
-    resolution: {integrity: sha512-R9OY/vz63wxXh8vfCjUDGxv5sSvS6yMv+pQFhCwg2YGW2HcbIUWVyeanb5DeGN8T/PGO3ObuvRvB/YZZm2VK8Q==}
-    dev: false
 
   /@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1:
     resolution: {integrity: sha512-54/JRvkLIzzDWshCWfuhadfrfZVPiElY8Fcgmg1HroEly/EDSszzhBAsarCux+D/kOslTRquNzuyGSmUSTTHGg==}
