@@ -1,17 +1,18 @@
 {
   "name": "@nebuia-ts/models",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
   "description": "Include models to use in nebuia-ts",
+  "main": "./dist/cjs/index.js",
   "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types",
   "scripts": {
     "lint:fix": "eslint ./src --max-warnings=0 --ext .ts --fix",
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
     "lint": "pnpm lint:format && pnpm lint:fix ",
-    "build": "rimraf dist && rollup -c ./rollup.config.js",
+    "build": "rimraf dist && rollup -c ./rollup.config.js && rm -rf ./dist/cjs/types",
     "prepare": "pnpm build"
   },
   "files": [
