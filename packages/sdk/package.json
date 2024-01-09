@@ -1,24 +1,24 @@
 {
   "name": "@nebuia-ts/sdk",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
   "description": "Integration of Nebuia's API with Typescript",
   "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "lint:fix": "eslint ./src --max-warnings=0 --ext .ts --fix",
   "scripts": {
     "lint:format": "prettier  --loglevel warn --write \"./**/*.{ts,json}\" ",
     "lint": "pnpm lint:format && pnpm lint:fix ",
-    "build": "rimraf dist && rollup -c ./rollup.config.js",
+    "build": "rimraf dist && rollup -c ./rollup.config.js && rm -rf ./dist/cjs/types",
     "prepare": "pnpm build",
     "test": "dotenv -e .env.jest.local jest"
   },
   "dependencies": {
-    "@nebuia-ts/api": "3.0.0",
-    "@nebuia-ts/models": "2.1.8"
+    "@nebuia-ts/api": "3.0.1",
+    "@nebuia-ts/models": "2.1.9"
   },
   "peerDependencies": {
     "@nebuia-ts/api": "3.0.0",

@@ -6,8 +6,13 @@ module.exports = {
   treeshake: true,
   output: [
     {
-      file: 'dist/esm/index.js',
+      file: 'dist/index.js',
       format: 'esm',
+      sourcemap: true,
+    },
+    {
+      file: 'dist/cjs/index.js',
+      format: 'cjs',
       sourcemap: true,
     },
   ],
