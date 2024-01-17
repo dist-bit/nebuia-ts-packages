@@ -7,6 +7,11 @@ export class CommonJwtSdkUtils {
   private _credentials: Credentials | null = null;
   private _token: string | null = null;
 
+  set token(token: string) {
+    this.parseToken(token);
+    this._token = token;
+  }
+
   async login(credentials: Credentials): NebuiaApiResponse<string> {
     this._credentials = credentials;
     const response = await this._authRepo.login(credentials);

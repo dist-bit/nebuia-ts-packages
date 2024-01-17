@@ -12,6 +12,10 @@ export class NebuiaAdmin extends NebuiaAdminApiRepository {
     return this._authUtils.login(credentials);
   }
 
+  initToken(token: string): void {
+    this._authUtils.token = token;
+  }
+
   override get token(): NebuiaApiResponse<string> {
     return this._authUtils.verifyToken();
   }
