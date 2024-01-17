@@ -270,7 +270,7 @@ export class NebuiaAdminApiRepository
   async setCompanyLogo(arg0: Blob | Buffer): NebuiaApiResponse<unknown> {
     const body = new IsomorphicFormData();
     await body.init();
-    body.append('file', arg0, 'logo.png');
+    body.append('logo', arg0, 'logo.png');
     const response = await this.request({
       method: 'put',
       path: 'company/logo',
