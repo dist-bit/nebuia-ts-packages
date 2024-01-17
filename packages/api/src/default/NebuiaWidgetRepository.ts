@@ -1,7 +1,7 @@
 import {
   NebuiaAddress,
   NebuiaCompany,
-  NebuiaCompanyWidgetSettings,
+  NebuiaCompanySettings,
   NebuiaReport,
   NebuiaStepNames,
 } from '@nebuia-ts/models';
@@ -249,7 +249,9 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async getCompanyTheme(): NebuiaApiResponse<NebuiaCompanyWidgetSettings> {
+  async getCompanyTheme(): NebuiaApiResponse<
+    Partial<Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>>
+  > {
     return this.request({
       ...this.parse('get', true),
       path: 'theme/company',
@@ -260,6 +262,13 @@ export class NebuiaWidgetApiRepository
     return this.request({
       ...this.parse('get', true),
       path: 'services/report',
+    });
+  }
+
+  async getCompanyLogo(): NebuiaApiResponse<ArrayBuffer> {
+    return this.requestFile({
+      ...this.parse('get', true),
+      path: 'logo/image',
     });
   }
 

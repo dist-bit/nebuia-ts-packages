@@ -1,6 +1,6 @@
 import {
   NebuiaCompany,
-  NebuiaCompanyWidgetSettings,
+  NebuiaCompanySettings,
   NebuiaReport,
   NebuiaStepNames,
   ReportValidity,
@@ -10,6 +10,7 @@ import {
   CreateNebuiaCompanyDTO,
   GetCompanyReportsDTO,
   RegisterNebuiaUserDTO,
+  UpdateNebuiaCreditDocuments,
 } from '../dto/NebuiaAdminDTOs';
 import { WithReport } from './common';
 
@@ -24,7 +25,9 @@ export type NebuiaAdminRepository = {
   ) => (NebuiaReport & { validity: ReportValidity })[] | undefined;
   updateIp: (arg0: { value: string }) => unknown;
   updateOrigin: (arg0: { value: string }) => unknown;
-  updateCompanyTheme: (arg0: { value: NebuiaCompanyWidgetSettings }) => unknown;
+  updateCompanyTheme: (arg0: {
+    value: Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>;
+  }) => unknown;
   updateCompanySteps: (arg0: { value: NebuiaStepNames[] }) => unknown;
   invalidateReport: (arg0: WithReport) => unknown;
   getReportPdf: (arg0: WithReport) => ArrayBuffer;
@@ -35,4 +38,11 @@ export type NebuiaAdminRepository = {
     arg0: WithReport,
   ) => NebuiaReport & { validity: ReportValidity };
   getReportFaceImage: (arg0: WithReport) => ArrayBuffer;
+  setCompanyLogo: (arg0: Blob | Buffer) => unknown;
+  appendCreditProductDocuments: (arg0: UpdateNebuiaCreditDocuments) => unknown;
+  removeCreditProductDocument: (arg0: { doc_name: string }) => unknown;
+  activateCreditProduct: (arg0: {
+    domain: string;
+    platform_name: string;
+  }) => unknown;
 };

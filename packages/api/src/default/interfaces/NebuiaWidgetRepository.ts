@@ -1,7 +1,7 @@
 import {
   NebuiaAddress,
   NebuiaCompany,
-  NebuiaCompanyWidgetSettings,
+  NebuiaCompanySettings,
   NebuiaReport,
   NebuiaStepNames,
 } from '@nebuia-ts/models';
@@ -31,6 +31,9 @@ export interface NebuiaWidgetRepository {
   saveEmailPhone<T>(arg0: { value: string; toEmail: boolean }): T;
   getReportPDF(): ArrayBuffer;
   createReport(): string;
-  getCompanyTheme(): NebuiaCompanyWidgetSettings;
+  getCompanyTheme(): Partial<
+    Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>
+  >;
   getReportObject(): NebuiaReport;
+  getCompanyLogo(): ArrayBuffer;
 }

@@ -21,3 +21,10 @@ export type GetCompanyReportsDTO = {
     search?: string;
   };
 };
+
+export type UpdateNebuiaCreditDocuments = {
+  docs: {
+    document_name: string;
+    document_type: 'PDF' | 'Image';
+  }[];
+};

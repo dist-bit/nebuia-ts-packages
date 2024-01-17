@@ -1,17 +1,19 @@
 import {
   checkNebuiaReportValidity,
   NebuiaCompany,
-  NebuiaCompanyWidgetSettings,
+  NebuiaCompanySettings,
   NebuiaReport,
   NebuiaStepNames,
   ReportValidity,
 } from '@nebuia-ts/models';
 
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import {
   CreateNebuiaCompanyDTO,
   RegisterNebuiaUserDTO,
+  UpdateNebuiaCreditDocuments,
 } from './dto/NebuiaAdminDTOs';
 import { WithReport } from './interfaces/common';
 import { NebuiaAdminRepository } from './interfaces/NebuiaAdminRepo';
@@ -158,7 +160,7 @@ export class NebuiaAdminApiRepository
   async updateCompanyTheme({
     value,
   }: {
-    value: NebuiaCompanyWidgetSettings;
+    value: Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>;
   }): NebuiaApiResponse<unknown> {
     const jwt = this.token;
 
@@ -263,5 +265,60 @@ export class NebuiaAdminApiRepository
         validity: checkNebuiaReportValidity(response.payload).status,
       },
     };
+  }
+
+  async setCompanyLogo(arg0: Blob | Buffer): NebuiaApiResponse<unknown> {
+    const body = new IsomorphicFormData();
+    await body.init();
+    body.append('file', arg0, 'logo.png');
+    const response = await this.request({
+      method: 'put',
+      path: 'company/logo',
+      body,
+      jwt: this.token,
+    });
+
+    return response;
+  }
+
+  async appendCreditProductDocuments(
+    data: UpdateNebuiaCreditDocuments,
+  ): NebuiaApiResponse<unknown> {
+    return this.request({
+      method: 'put',
+      path: 'company/credit/append/collaborator/document',
+      jwt: this.token,
+      body: {
+        documents_config: data.docs,
+      },
+    });
+  }
+
+  async removeCreditProductDocument(arg0: {
+    doc_name: string;
+  }): NebuiaApiResponse<unknown> {
+    return this.request({
+      method: 'delete',
+      path: `company/credit/remove/collaborator/${arg0.doc_name}`,
+      jwt: this.token,
+    });
+  }
+
+  async activateCreditProduct({
+    domain,
+    platform_name: platformName,
+  }: {
+    domain: string;
+    platform_name: string;
+  }): NebuiaApiResponse<unknown> {
+    return this.request({
+      method: 'post',
+      path: 'company/credit',
+      jwt: this.token,
+      body: {
+        domain,
+        platform_name: platformName,
+      },
+    });
   }
 }

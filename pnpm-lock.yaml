@@ -64,7 +64,7 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: 2.1.9
+        specifier: 3.0.0
         version: link:../models
       axios:
         specifier: 1.6.5
@@ -78,10 +78,10 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: 3.0.2
+        specifier: 3.1.1
         version: link:../api
       '@nebuia-ts/models':
-        specifier: 2.1.9
+        specifier: 3.0.0
         version: link:../models
 
 packages:
