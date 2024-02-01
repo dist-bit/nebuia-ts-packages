@@ -272,6 +272,20 @@ export class NebuiaWidgetApiRepository
     });
   }
 
+  async validateKeys(): NebuiaApiResponse<void> {
+    return this.request({
+      ...this.parse('get', true),
+      path: 'services/keys/valid',
+    });
+  }
+
+  async getCompany(): NebuiaApiResponse<NebuiaCompany> {
+    return this.request({
+      ...this.parse('get', true),
+      path: 'widget/company/',
+    });
+  }
+
   private parse(
     method: 'get' | 'post' | 'put' | 'delete' | 'patch',
     omitError = false,
