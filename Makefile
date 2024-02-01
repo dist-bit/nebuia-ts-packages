@@ -32,6 +32,21 @@ publish:
 	cd $(API) && $(PNPM) publish --access public
 	cd $(SDK) && $(PNPM) publish --access public
 
+
+# Publicar todos los paquetes
+publish-api:
+# build previous to publish
+	make build
+# publish models, api and sdk in this order
+	cd $(API) && $(PNPM) publish --access public
+	cd $(SDK) && $(PNPM) publish --access public
+
+publish-sdk:
+# build previous to publish
+	make build
+# publish models, api and sdk in this order
+	cd $(SDK) && $(PNPM) publish --access public
+
 # Objetivo para ejecutar cualquier script personalizado
 run-script:
 	$(PNPM) run $(script)
