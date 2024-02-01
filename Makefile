@@ -27,7 +27,10 @@ build:
 publish:
 # build previous to publish
 	make build
-	$(PNPM) publish --access public --no-git-check
+# publish models, api and sdk in this order
+	cd $(MODELS) && $(PNPM) publish --access public
+	cd $(API) && $(PNPM) publish --access public
+	cd $(SDK) && $(PNPM) publish --access public
 
 # Objetivo para ejecutar cualquier script personalizado
 run-script:
