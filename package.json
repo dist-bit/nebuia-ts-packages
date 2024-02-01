@@ -5,10 +5,13 @@
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "lint": "pnpm exec --recursive --parallel lint",
-    "build": "pnpm run build-all",
-    "build-all": "pnpm recursive exec --parallel -- filter . --sort --ignore-script build"
+    "publish:all": "pnpm recursive exec -- pnpm publish --access public"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
