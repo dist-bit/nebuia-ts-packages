@@ -1,6 +1,6 @@
 {
   "name": "@nebuia-ts/sdk",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
   "license": "ISC",
@@ -16,8 +16,8 @@
     "test": "dotenv -e .env.jest.local jest"
   },
   "dependencies": {
-    "@nebuia-ts/models": "link:../models",
-    "@nebuia-ts/api": "link:../api"
+    "@nebuia-ts/models": "latest",
+    "@nebuia-ts/api": "latest"
   },
   "files": [
     "dist",
