@@ -1,5 +1,6 @@
 // eslint-disable-next-line simple-import-sort/exports
 export * from './default/NebuiaAdminRepository';
+export * from './default/NebuiaCreditsEnrollmentRepository';
 export * from './default/NebuiaReportsRepository';
 export * from './default/NebuiaSignDocumentsRepository';
 export * from './default/NebuiaSignatureRepo';
