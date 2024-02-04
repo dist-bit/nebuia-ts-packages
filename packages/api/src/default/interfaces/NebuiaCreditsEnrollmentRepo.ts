@@ -3,8 +3,7 @@ export interface NebuiaCreditsEnrollmentRepo {
     nss: string;
     files: {
       name: string;
-      file: string;
-      type: 'application/pdf' | 'image/png' | 'image/jpeg';
+      file: Buffer | Blob;
     }[];
   }): { status: true };
 }

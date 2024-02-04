@@ -1,4 +1,5 @@
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
+import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
 import { NebuiaCreditsEnrollmentRepo } from './interfaces/NebuiaCreditsEnrollmentRepo';
 
@@ -15,19 +16,21 @@ export class NebuiaCreditsEnrollmentRepository
     nss: string;
     files: {
       name: string;
-      file: string;
-      type: 'application/pdf' | 'image/png' | 'image/jpeg';
+      file: Blob | Buffer;
     }[];
   }): NebuiaApiResponse<{ status: true }> {
     const { nss, files } = arg0;
+    const body = new IsomorphicFormData();
+    await body.init();
+    body.append('nss', nss);
+    files.forEach((file) => {
+      body.append(file.name, file.file, file.name);
+    });
 
     return this.request({
       ...this.parse('post'),
       path: 'collaborators/onboarding/upload-documents',
-      body: {
-        nss,
-        files,
-      },
+      body,
     });
   }
 
