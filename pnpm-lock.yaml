@@ -64,11 +64,11 @@ importers:
   packages/api:
     dependencies:
       '@nebuia-ts/models':
-        specifier: link:../models
+        specifier: latest
         version: link:../models
       axios:
-        specifier: 1.6.5
-        version: 1.6.5
+        specifier: 1.6.7
+        version: 1.6.7
       form-data:
         specifier: 4.0.0
         version: 4.0.0
@@ -78,10 +78,10 @@ importers:
   packages/sdk:
     dependencies:
       '@nebuia-ts/api':
-        specifier: link:../api
+        specifier: latest
         version: link:../api
       '@nebuia-ts/models':
-        specifier: link:../models
+        specifier: latest
         version: link:../models
 
 packages:
@@ -1600,8 +1600,8 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /axios@1.6.5:
-    resolution: {integrity: sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==}
+  /axios@1.6.7:
+    resolution: {integrity: sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==}
     dependencies:
       follow-redirects: 1.15.4
       form-data: 4.0.0
