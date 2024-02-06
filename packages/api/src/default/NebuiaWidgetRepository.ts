@@ -31,21 +31,21 @@ export class NebuiaWidgetApiRepository
 
   async checkAuthCode(code: string): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: `otp/verify/time_key/${code}`,
     });
   }
 
   async getOrigin(): NebuiaApiResponse<string> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'origin/company',
     });
   }
 
   async getStepsCompany(): NebuiaApiResponse<string[]> {
     return this.request({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'steps/company',
     });
   }
@@ -54,7 +54,7 @@ export class NebuiaWidgetApiRepository
     { name: NebuiaStepNames; status: boolean }[]
   > {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'services/steps',
     });
   }
@@ -63,7 +63,7 @@ export class NebuiaWidgetApiRepository
     Pick<NebuiaCompany, 'keys' | 'otp'> & { report: string }
   > {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'mobile/data',
     });
   }
@@ -73,7 +73,7 @@ export class NebuiaWidgetApiRepository
     extension = '+52',
   ): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('put'),
+      ...this.parse({ method: 'put' }),
       path: 'services/phone',
       body: { phone: `${extension}${phone}` },
     });
@@ -81,7 +81,7 @@ export class NebuiaWidgetApiRepository
 
   async saveEmail(email: string): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('put'),
+      ...this.parse({ method: 'put' }),
       path: 'services/email',
       body: { email },
     });
@@ -93,7 +93,7 @@ export class NebuiaWidgetApiRepository
     toEmail: boolean;
   }): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: `services/otp/generate/${toEmail ? 'email' : 'phone'}`,
     });
   }
@@ -106,7 +106,7 @@ export class NebuiaWidgetApiRepository
     code: string;
   }): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: `services/otp/validate/${toEmail ? 'email' : 'phone'}/${code}`,
     });
   }
@@ -119,7 +119,7 @@ export class NebuiaWidgetApiRepository
     body.append('face', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse({ method: 'post' }),
       path: 'services/face',
       body,
     });
@@ -131,7 +131,7 @@ export class NebuiaWidgetApiRepository
     body.append('face', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse({ method: 'post' }),
       path: 'services/face/quality',
       body,
     });
@@ -143,7 +143,7 @@ export class NebuiaWidgetApiRepository
     body.append('front', img, 'data.jpg');
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse({ method: 'post' }),
       path: 'services/crop',
       body,
     });
@@ -164,7 +164,7 @@ export class NebuiaWidgetApiRepository
     body.append('document', name);
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse({ method: 'post' }),
       path: 'services/id/cropped/experimental',
       body,
     });
@@ -182,7 +182,7 @@ export class NebuiaWidgetApiRepository
     body.append('document', img, isPDF ? 'data.pdf' : 'data.jpg');
 
     return this.request({
-      ...this.parse('post'),
+      ...this.parse({ method: 'post' }),
       body,
       path: 'services/address',
     });
@@ -192,7 +192,7 @@ export class NebuiaWidgetApiRepository
     const body = JSON.parse(JSON.stringify(address)) as Record<string, unknown>;
 
     return this.request({
-      ...this.parse('put'),
+      ...this.parse({ method: 'put' }),
       path: 'services/address',
       body,
     });
@@ -200,14 +200,14 @@ export class NebuiaWidgetApiRepository
 
   async getFace(): NebuiaApiResponse<ArrayBuffer> {
     return this.requestFile({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'services/faces',
     });
   }
 
   async generateURL(): NebuiaApiResponse<string> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'services/mobile/generate',
     });
   }
@@ -217,7 +217,7 @@ export class NebuiaWidgetApiRepository
     extension = '+52',
   ): NebuiaApiResponse<unknown> {
     return this.request({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: `services/mobile/generate/${extension}${phone}`,
     });
   }
@@ -229,7 +229,7 @@ export class NebuiaWidgetApiRepository
     const { toEmail, value } = arg0;
 
     return this.request({
-      ...this.parse('put'),
+      ...this.parse({ method: 'put' }),
       path: `services/${toEmail ? 'email' : 'phone'}`,
       body: toEmail ? { email: value } : { phone: value },
     });
@@ -237,14 +237,14 @@ export class NebuiaWidgetApiRepository
 
   async getReportPDF(): NebuiaApiResponse<ArrayBuffer> {
     return this.requestFile({
-      ...this.parse('get'),
+      ...this.parse({ method: 'get' }),
       path: 'services/report/pdf',
     });
   }
 
   async createReport(): NebuiaApiResponse<string> {
     return this.request({
-      ...this.parse('post', true),
+      ...this.parse({ method: 'post', omitError: true }),
       path: 'services/report',
     });
   }
@@ -253,50 +253,61 @@ export class NebuiaWidgetApiRepository
     Partial<Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>>
   > {
     return this.request({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'theme/company',
     });
   }
 
   async getReportObject(): NebuiaApiResponse<NebuiaReport> {
     return this.request({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'services/report',
     });
   }
 
   async getCompanyLogo(): NebuiaApiResponse<ArrayBuffer> {
     return this.requestFile({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'logo/image',
     });
   }
 
   async validateKeys(): NebuiaApiResponse<void> {
     return this.request({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'services/keys/valid',
     });
   }
 
   async getCompanySettings(): NebuiaApiResponse<NebuiaCompany['settings']> {
     return this.request({
-      ...this.parse('get', true),
+      ...this.parse({ method: 'get', omitError: true, omitReport: true }),
       path: 'widget/company',
     });
   }
 
-  private parse(
-    method: 'get' | 'post' | 'put' | 'delete' | 'patch',
+  private parse({
+    method,
     omitError = false,
-  ) {
+    omitReport = false,
+  }: {
+    method: 'get' | 'post' | 'put' | 'delete' | 'patch';
+    omitError?: boolean;
+    omitReport?: boolean;
+  }) {
     const keys = this.keys;
     const report = this.getReport(omitError);
+    if (omitReport) {
+      return {
+        method,
+        keys,
+      };
+    }
 
     return {
       method,
       keys,
-      query: { report },
+      report,
     };
   }
 }
