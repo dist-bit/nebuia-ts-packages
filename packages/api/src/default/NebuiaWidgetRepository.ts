@@ -281,7 +281,7 @@ export class NebuiaWidgetApiRepository
 
   async getCompanySettings(): NebuiaApiResponse<NebuiaCompany['settings']> {
     return this.request({
-      ...this.parse({ method: 'get', omitError: true, omitReport: true }),
+      ...this.parse({ method: 'get', omitError: true }),
       path: 'widget/company',
     });
   }
@@ -297,17 +297,17 @@ export class NebuiaWidgetApiRepository
   }) {
     const keys = this.keys;
     const report = this.getReport(omitError);
-    if (omitReport) {
+    if (!omitReport) {
       return {
         method,
         keys,
+        query: { report },
       };
     }
 
     return {
       method,
       keys,
-      report,
     };
   }
 }
