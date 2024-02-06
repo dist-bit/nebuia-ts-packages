@@ -15,9 +15,6 @@ export class NebuiaWidgetApiRepository
   extends NebuiaApiRepository
   implements ParsedApiMethods<NebuiaWidgetRepository>
 {
-  getCompanySettings(): NebuiaApiResponse<NebuiaCompany> {
-    throw new Error('Method not implemented.');
-  }
   private _report: string | null = null;
 
   public getReport(omitError = false): string {
@@ -282,7 +279,7 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async getCompany(): NebuiaApiResponse<NebuiaCompany['settings']> {
+  async getCompanySettings(): NebuiaApiResponse<NebuiaCompany['settings']> {
     return this.request({
       ...this.parse('get', true),
       path: 'widget/company/',
