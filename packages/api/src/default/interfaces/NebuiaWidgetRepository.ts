@@ -37,5 +37,5 @@ export interface NebuiaWidgetRepository {
   getReportObject(): NebuiaReport;
   getCompanyLogo(): ArrayBuffer;
   validateKeys(): void;
-  getCompany(): NebuiaCompany;
+  getCompanySettings(): NebuiaCompany['settings'];
 }
