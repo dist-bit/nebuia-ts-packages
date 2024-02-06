@@ -282,7 +282,7 @@ export class NebuiaWidgetApiRepository
   async getCompanySettings(): NebuiaApiResponse<NebuiaCompany['settings']> {
     return this.request({
       ...this.parse('get', true),
-      path: 'widget/company/',
+      path: 'widget/company',
     });
   }
 
