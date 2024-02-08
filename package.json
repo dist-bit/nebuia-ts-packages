@@ -1,6 +1,6 @@
 {
   "name": "nebuia-ts",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common typescript libraries for Nebuia",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
@@ -18,7 +18,8 @@
     "lint": "pnpm exec --recursive --parallel lint",
     "publish:all": "pnpm recursive exec -- pnpm publish --access public",
     "build": "rimraf dist && rollup --bundleConfigAsCjs -c ./rollup.config.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepare": "pnpm run build"
   },
   "devDependencies": {
     "@rollup/plugin-terser": "0.4.4",
