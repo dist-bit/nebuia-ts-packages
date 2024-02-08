@@ -3,6 +3,7 @@
     "target": "esnext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "rootDir": "./src",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -27,7 +28,10 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "noEmitOnError": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "declarationDir": "dist/types",
+    "declaration": true
   },
+  "include": ["src", "rollup.config.js"],
   "exclude": ["**/node_modules", "**/build", "**/dist", "**/coverage"]
 }
