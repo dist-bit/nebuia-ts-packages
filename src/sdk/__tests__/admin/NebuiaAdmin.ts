@@ -2,7 +2,7 @@
 import {
   CreateNebuiaCompanyDTO,
   RegisterNebuiaUserDTO,
-} from '../../../api/api-lib/default/dto/NebuiaAdminDTOs';
+} from '../../../api/default/dto/NebuiaAdminDTOs';
 import { NebuiaAdmin } from '../../../sdk';
 
 const nebuia = new NebuiaAdmin();

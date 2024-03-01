@@ -1,4 +1,11 @@
-const all = require('./dist/models');
+let models;
 
-module.exports = all;
-exports.default = all;
+if (typeof module === 'undefined' || typeof module.exports === 'undefined') {
+  // Si no hay soporte para CommonJS (por ejemplo, en un entorno que soporta módulos ESM)
+  models = import('./dist/models.js');
+} else {
+  // Si hay soporte para CommonJS
+  models = require('./dist/models.cjs');
+}
+
+module.exports = models;

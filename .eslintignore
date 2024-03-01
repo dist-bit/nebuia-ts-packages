@@ -1,2 +1,9 @@
 **/node_modules
 **/dist
+scripts
+api.js
+api.d.ts
+models.js
+models.d.ts
+sdk.js
+sdk.d.ts

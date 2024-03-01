@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import { NebuiaAddress } from '../../../models';
 import { NebuiaWidget } from '../../../sdk';
-import { NebuiaAddress } from '../../models';
 
 const nebuia = new NebuiaWidget({
   apiKey: 'YOUR_API_KEY',
