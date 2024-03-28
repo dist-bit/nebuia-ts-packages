@@ -1,14 +1,38 @@
 import { NebuiaAdminApiRepository, NebuiaApiResponse } from '../../api';
+import type { CredentialsStore, PromiseOr } from '../admin/CredentialsStore';
 import { Credentials } from './CommonSdk';
 
 export class CommonJwtSdkUtils {
   private readonly _authRepo = new NebuiaAdminApiRepository();
-  private _credentials: Credentials | null = null;
   private _token: string | null = null;
+  private _internalCredentials: Credentials | null = null;
+  constructor(private readonly credentialsStore?: CredentialsStore) {}
+
+  private get _credentials(): PromiseOr<Credentials | null> {
+    if (this._internalCredentials) {
+      return this._internalCredentials;
+    }
+    if (this.credentialsStore) {
+      return this.credentialsStore.getCredentials();
+    }
+
+    return null;
+  }
+
+  private set _credentials(credentials: Credentials) {
+    if (this.credentialsStore) {
+      void this.credentialsStore.setCredentials(credentials);
+    }
+    this._internalCredentials = credentials;
+  }
 
   set token(token: string) {
-    this.parseToken(token);
+    parseToken(token);
     this._token = token;
+  }
+
+  get token(): string | null {
+    return this._token;
   }
 
   async login(credentials: Credentials): NebuiaApiResponse<string> {
@@ -27,54 +51,30 @@ export class CommonJwtSdkUtils {
   }
 
   async verifyToken(): NebuiaApiResponse<string> {
-    if (!this._credentials) {
+    const credentials = await this._credentials;
+    if (!credentials) {
       return {
         status: false,
         payload: 'No credentials provided',
       };
     }
     if (!this._token) {
-      return this.login(this._credentials);
+      return this.login(credentials);
     }
 
-    const { exp } = this.parseToken(this._token);
+    const { exp } = parseToken(this._token);
 
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
     const fiveMinutesInSeconds = 2 * 60; // 5 minutos en segundos
     const timeRemaining = exp - currentTimeInSeconds;
 
     if (timeRemaining < fiveMinutesInSeconds) {
-      return this.login(this._credentials);
+      return this.login(credentials);
     }
 
     return {
       status: true,
       payload: this._token,
-    };
-  }
-
-  private parseToken(token: string): { exp: number; id: string } {
-    const base64 = token.split('.')[1] ?? '';
-    let data: unknown;
-    if ('atob' in globalThis) {
-      data = JSON.parse(atob(base64)) as unknown;
-    } else if ('Buffer' in globalThis) {
-      data = JSON.parse(Buffer.from(base64, 'base64').toString()) as unknown;
-    } else {
-      throw new Error('No decoder found');
-    }
-
-    if (
-      !isObjectWithProperties(data, ['exp', 'id']) ||
-      typeof data['exp'] !== 'number' ||
-      typeof data['id'] !== 'string'
-    ) {
-      throw new Error('Invalid token');
-    }
-
-    return {
-      exp: data['exp'],
-      id: data['id'],
     };
   }
 }
@@ -94,4 +94,28 @@ function isObjectWithProperties(
   }
 
   return true;
+}
+function parseToken(token: string): { exp: number; id: string } {
+  const base64 = token.split('.')[1] ?? '';
+  let data: unknown;
+  if ('atob' in globalThis) {
+    data = JSON.parse(atob(base64)) as unknown;
+  } else if ('Buffer' in globalThis) {
+    data = JSON.parse(Buffer.from(base64, 'base64').toString()) as unknown;
+  } else {
+    throw new Error('No decoder found');
+  }
+
+  if (
+    !isObjectWithProperties(data, ['exp', 'id']) ||
+    typeof data['exp'] !== 'number' ||
+    typeof data['id'] !== 'string'
+  ) {
+    throw new Error('Invalid token');
+  }
+
+  return {
+    exp: data['exp'],
+    id: data['id'],
+  };
 }
