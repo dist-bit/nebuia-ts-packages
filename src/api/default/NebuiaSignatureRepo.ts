@@ -30,7 +30,13 @@ export class NebuiaAdminSignatureRepository
 
   async createAdvancedSignature(
     arg0: CreateAdvancedSignatureDTO,
-  ): NebuiaApiResponse<true> {
+  ): NebuiaApiResponse<{
+    documentId: string;
+    signers: {
+      email: string;
+      signatureLink: string;
+    }[];
+  }> {
     const jwt = this.token;
     const formData = new IsomorphicFormData();
     await formData.init();

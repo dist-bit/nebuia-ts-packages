@@ -2,7 +2,13 @@ import { AdvancedSignatureSigner, AdvancedSignDocument } from '../../../models';
 import { CreateAdvancedSignatureDTO } from '../dto/NebuiaSignatureDTOs';
 
 export interface NebuiaSignatureRepo {
-  createAdvancedSignature: (arg0: CreateAdvancedSignatureDTO) => true;
+  createAdvancedSignature: (arg0: CreateAdvancedSignatureDTO) => {
+    documentId: string;
+    signers: {
+      email: string;
+      signatureLink: string;
+    }[];
+  };
 
   downloadOwnAdvancedSignatureDocumentFile(arg0: { id: string }): ArrayBuffer;
 
