@@ -24,7 +24,7 @@ export class NebuiaAdminSignatureRepository
   extends NebuiaApiRepository
   implements ParsedApiMethods<NebuiaSignatureRepo>
 {
-  constructor(baseUrl = 'https://api.distbit.io/contracts-api') {
+  constructor(baseUrl = 'https://signature.nebuia.com/api') {
     super(baseUrl);
   }
 
