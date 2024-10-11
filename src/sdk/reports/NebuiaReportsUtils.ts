@@ -3,14 +3,16 @@ import { NebuiaKeys, NebuiaReport } from '../../models';
 
 type WithReport<T> = T & { report: string };
 export class NebuiaReportsUtils extends NebuiaReportsApiRepository {
-  constructor(keys: NebuiaKeys) {
-    super();
+  constructor(baseUrl: string, keys: NebuiaKeys) {
+    super(baseUrl);
     this.keys = keys;
   }
 }
 
 export class NebuiaReportsUtilsFactory {
   private readonly _classes: Record<string, NebuiaReportsUtils> = {};
+
+  constructor(private readonly baseUrl: string) {}
 
   async generateReport(keys: NebuiaKeys): NebuiaApiResponse<string> {
     return this._getReportClass(keys).generateReport();
@@ -35,7 +37,7 @@ export class NebuiaReportsUtilsFactory {
   private _getReportClass(keys: NebuiaKeys): NebuiaReportsUtils {
     const key = JSON.stringify(keys);
     if (!this._classes[key]) {
-      this._classes[key] = new NebuiaReportsUtils(keys);
+      this._classes[key] = new NebuiaReportsUtils(this.baseUrl, keys);
     }
 
     return this._classes[key] as NebuiaReportsUtils;

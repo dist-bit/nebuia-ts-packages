@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import { NebuiaApiUrl } from '../../../api/__tests__/auth/login.test';
 import { NebuiaAdminSignature } from '../../../sdk';
 
-const nebuia = new NebuiaAdminSignature();
+const nebuia = new NebuiaAdminSignature(NebuiaApiUrl);
 
 // PUBLIC METHODS
 nebuia.init({

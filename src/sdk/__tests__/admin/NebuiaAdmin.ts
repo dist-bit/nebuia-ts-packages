@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import { NebuiaApiUrl } from '../../../api/__tests__/auth/login.test';
 import {
   CreateNebuiaCompanyDTO,
   RegisterNebuiaUserDTO,
 } from '../../../api/default/dto/NebuiaAdminDTOs';
 import { NebuiaAdmin } from '../../../sdk';
 
-const nebuia = new NebuiaAdmin();
+const nebuia = new NebuiaAdmin(NebuiaApiUrl);
 
 // PUBLIC METHODS
 nebuia.createAccount({} as RegisterNebuiaUserDTO); // Create an account for a new user

@@ -5,7 +5,6 @@ import { NebuiaApiFetchProps } from './Common';
 import { IsomorphicFormData } from './FormData';
 import { NebuiaApiResponse } from './NebuiaResponse';
 
-const NebuiaApiUrl = 'https://api.nebuia.com/api/v1';
 const axios = Axios.create();
 
 type NebuiaApiRepositoryConfig = {
@@ -25,10 +24,13 @@ export abstract class NebuiaApiRepository {
     successDataProp: 'payload',
   };
 
+  protected readonly baseUrl: string;
   private _token: string | null = null;
   private _keys: NebuiaKeys | null = null;
 
-  constructor(protected baseUrl: string = NebuiaApiUrl) {}
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
+  }
 
   public set token(value: string) {
     this._token = value;

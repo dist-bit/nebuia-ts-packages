@@ -2,8 +2,8 @@ import { NebuiaApiResponse, NebuiaWidgetApiRepository } from '../../api';
 import { NebuiaKeys } from '../../models';
 
 export class NebuiaWidget extends NebuiaWidgetApiRepository {
-  constructor(keys: NebuiaKeys) {
-    super();
+  constructor(baseUrl: string, keys: NebuiaKeys) {
+    super(baseUrl);
     this.keys = keys;
   }
 

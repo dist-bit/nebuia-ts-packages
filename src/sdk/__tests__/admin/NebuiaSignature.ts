@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import { NebuiaApiUrl } from '../../../api/__tests__/auth/login.test';
 import { NebuiaSignature } from '../../../sdk';
 
-const nebuia = new NebuiaSignature();
+const nebuia = new NebuiaSignature(NebuiaApiUrl);
 
 // PUBLIC METHODS
 nebuia.initToken('API_TOKEN'); // Use a token obtained by an email of the signer

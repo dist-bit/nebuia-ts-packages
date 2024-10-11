@@ -4,15 +4,17 @@ import {
   NebuiaApiFetcher,
 } from '../../../api';
 
+export const NebuiaApiUrl = 'https://api.nebuia.com/api/v1';
+
 describe('Verify auth methods', () => {
   const repositoryContainer = new NebuiaApiFetcher();
-  const authRepository = new NebuiaAdminApiRepository();
+  const authRepository = new NebuiaAdminApiRepository(NebuiaApiUrl);
   const signatureRepository = new NebuiaAdminSignatureRepository();
 
   repositoryContainer.register(authRepository);
   repositoryContainer.register(signatureRepository);
 
-  const repository = new NebuiaAdminApiRepository();
+  const repository = new NebuiaAdminApiRepository(NebuiaApiUrl);
   const user = process.env['NEBUIA_USER'] ?? '';
   const pass = process.env['NEBUIA_PASSWORD'] ?? '';
 

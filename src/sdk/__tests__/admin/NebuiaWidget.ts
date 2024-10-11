@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import { NebuiaApiUrl } from '../../../api/__tests__/auth/login.test';
 import { NebuiaAddress } from '../../../models';
 import { NebuiaWidget } from '../../../sdk';
 
-const nebuia = new NebuiaWidget({
+const nebuia = new NebuiaWidget(NebuiaApiUrl, {
   apiKey: 'YOUR_API_KEY',
   apiSecret: 'YOUR_API_SECRET',
 });

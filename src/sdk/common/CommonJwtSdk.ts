@@ -3,10 +3,15 @@ import type { CredentialsStore, PromiseOr } from '../admin/CredentialsStore';
 import { Credentials } from './CommonSdk';
 
 export class CommonJwtSdkUtils {
-  private readonly _authRepo = new NebuiaAdminApiRepository();
+  private readonly _authRepo: NebuiaAdminApiRepository;
   private _token: string | null = null;
   private _internalCredentials: Credentials | null = null;
-  constructor(private readonly credentialsStore?: CredentialsStore) {}
+  constructor(
+    baseUrl: string,
+    private readonly credentialsStore?: CredentialsStore,
+  ) {
+    this._authRepo = new NebuiaAdminApiRepository(baseUrl);
+  }
 
   private get _credentials(): PromiseOr<Credentials | null> {
     if (this._internalCredentials) {

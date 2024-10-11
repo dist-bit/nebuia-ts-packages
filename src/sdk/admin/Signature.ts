@@ -10,15 +10,9 @@ import type { CredentialsStore } from './CredentialsStore';
 export class NebuiaAdminSignature extends NebuiaAdminSignatureRepository {
   private readonly _authUtils;
 
-  constructor({
-    baseUrl,
-    credentialsStore,
-  }: {
-    baseUrl?: string;
-    credentialsStore?: CredentialsStore;
-  } = {}) {
+  constructor(baseUrl: string, credentialsStore?: CredentialsStore) {
     super(baseUrl);
-    this._authUtils = new CommonJwtSdkUtils(credentialsStore);
+    this._authUtils = new CommonJwtSdkUtils(baseUrl, credentialsStore);
   }
 
   async init(credentials: Credentials): NebuiaApiResponse<string> {
@@ -33,15 +27,9 @@ export class NebuiaAdminSignature extends NebuiaAdminSignatureRepository {
 export class NebuiaAdminSignatureTemplates extends NebuiaSignatureTemplateRepository {
   private readonly _authUtils;
 
-  constructor({
-    baseUrl,
-    credentialsStore,
-  }: {
-    baseUrl?: string;
-    credentialsStore?: CredentialsStore;
-  } = {}) {
+  constructor(baseUrl: string, credentialsStore?: CredentialsStore) {
     super(baseUrl);
-    this._authUtils = new CommonJwtSdkUtils(credentialsStore);
+    this._authUtils = new CommonJwtSdkUtils(baseUrl, credentialsStore);
   }
 
   async init(credentials: Credentials): NebuiaApiResponse<string> {
