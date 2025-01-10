@@ -1,4 +1,4 @@
-import { AdvancedSignType } from '../../../models';
+import { AdvancedSignType, type IsomorphicBlob } from '../../../models';
 
 export interface CreateAdvancedSignatureDTO {
   signs: AdvancedSignType[];
@@ -9,7 +9,7 @@ export interface CreateAdvancedSignatureDTO {
   }[];
   name: string;
   description?: string;
-  document: Blob | Buffer;
+  document: IsomorphicBlob;
   graphicSign?: {
     x: number;
     y: number;

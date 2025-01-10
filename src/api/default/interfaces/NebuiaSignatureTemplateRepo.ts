@@ -1,4 +1,4 @@
-import { AdvSigTemplateDocument } from '../../../models';
+import { AdvSigTemplateDocument, type IsomorphicBlob } from '../../../models';
 
 export interface NebuiaSignatureTemplateRepo {
   getAdvSigTemplates: () => (AdvSigTemplateDocument & {
@@ -7,7 +7,7 @@ export interface NebuiaSignatureTemplateRepo {
   })[];
   saveAdvSigTemplate: (arg0: {
     template: Omit<AdvSigTemplateDocument, 'id' | 'company'>;
-    file: Blob | Buffer;
+    file: IsomorphicBlob;
   }) => true;
   getAdvSigTemplate: (arg0: { id: string }) => {
     template: AdvSigTemplateDocument;

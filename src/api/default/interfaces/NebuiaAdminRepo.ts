@@ -1,4 +1,5 @@
 import {
+  type IsomorphicBlob,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaReport,
@@ -37,7 +38,7 @@ export type NebuiaAdminRepository = {
     arg0: WithReport,
   ) => NebuiaReport & { validity: ReportValidity };
   getReportFaceImage: (arg0: WithReport) => ArrayBuffer;
-  setCompanyLogo: (arg0: Blob | Buffer) => unknown;
+  setCompanyLogo: (arg0: IsomorphicBlob) => unknown;
   appendCreditProductDocuments: (arg0: UpdateNebuiaCreditDocuments) => unknown;
   removeCreditProductDocument: (arg0: { doc_name: string }) => unknown;
   activateCreditProduct: (arg0: {

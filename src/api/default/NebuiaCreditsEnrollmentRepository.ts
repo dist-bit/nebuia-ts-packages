@@ -1,3 +1,4 @@
+import type { IsomorphicBlob } from '../../models';
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
@@ -16,7 +17,7 @@ export class NebuiaCreditsEnrollmentRepository
     nss: string;
     files: {
       name: string;
-      file: Blob | Buffer;
+      file: IsomorphicBlob;
     }[];
   }): NebuiaApiResponse<{ status: true }> {
     const { nss, files } = arg0;

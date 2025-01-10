@@ -1,3 +1,4 @@
+import type { IsomorphicBlob } from '../../models';
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
@@ -97,7 +98,7 @@ export class NebuiaSignerRepository
     return response;
   }
 
-  async saveGraphSign(arg0: { sign: Blob | Buffer }): NebuiaApiResponse<true> {
+  async saveGraphSign(arg0: { sign: IsomorphicBlob }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { sign } = arg0;
     const formData = new IsomorphicFormData();
@@ -113,8 +114,8 @@ export class NebuiaSignerRepository
   }
 
   async saveFielSign(arg0: {
-    cer: Blob | Buffer;
-    key: Blob | Buffer;
+    cer: IsomorphicBlob;
+    key: IsomorphicBlob;
     password: string;
   }): NebuiaApiResponse<true> {
     const jwt = this.token;

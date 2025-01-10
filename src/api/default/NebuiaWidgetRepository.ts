@@ -1,4 +1,5 @@
 import {
+  type IsomorphicBlob,
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanySettings,
@@ -111,7 +112,7 @@ export class NebuiaWidgetApiRepository
   }
 
   async analiceFace(
-    img: Blob,
+    img: IsomorphicBlob,
   ): NebuiaApiResponse<{ score: number; status: boolean }> {
     const body = new IsomorphicFormData();
     await body.init();
@@ -124,7 +125,7 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async qualityFace(img: Blob): NebuiaApiResponse<number> {
+  async qualityFace(img: IsomorphicBlob): NebuiaApiResponse<number> {
     const body = new IsomorphicFormData();
     await body.init();
     body.append('face', img, 'data.jpg');
@@ -136,10 +137,13 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async analiceID(img: Blob): NebuiaApiResponse<{ image: string }> {
+  async analiceID(
+    img: IsomorphicBlob,
+    side?: 'front' | 'back',
+  ): NebuiaApiResponse<{ image: string }> {
     const body = new IsomorphicFormData();
     await body.init();
-    body.append('front', img, 'data.jpg');
+    body.append(side ?? 'front', img, 'data.jpg');
 
     return this.request({
       ...this.parse({ method: 'post' }),
@@ -152,7 +156,7 @@ export class NebuiaWidgetApiRepository
     images,
     name,
   }: {
-    images: Blob[];
+    images: IsomorphicBlob[];
     name: 'id' | 'passport';
   }): NebuiaApiResponse<unknown> {
     const body = new IsomorphicFormData();
@@ -173,7 +177,7 @@ export class NebuiaWidgetApiRepository
     img,
     isPDF,
   }: {
-    img: Blob;
+    img: IsomorphicBlob;
     isPDF: boolean;
   }): NebuiaApiResponse<NebuiaAddress> {
     const body = new IsomorphicFormData();

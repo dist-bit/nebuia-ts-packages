@@ -1,6 +1,7 @@
 export * from './models/AdvancedSignature';
 export * from './models/AdvancedSignatureTemplates';
 export * from './models/Common';
+export * from './models/IsomorphicBlob';
 export * from './models/NebuiaAddress';
 export * from './models/NebuiaCompany';
 export * from './models/NebuiaIdDocument';

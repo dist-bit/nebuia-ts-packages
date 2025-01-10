@@ -1,4 +1,4 @@
-import { AdvSigTemplateDocument } from '../../models';
+import { AdvSigTemplateDocument, type IsomorphicBlob } from '../../models';
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
@@ -69,7 +69,7 @@ export class NebuiaSignatureTemplateRepository
 
   async saveAdvSigTemplate(arg0: {
     template: Omit<AdvSigTemplateDocument, 'company' | 'id'>;
-    file: Blob | Buffer;
+    file: IsomorphicBlob;
   }): NebuiaApiResponse<true> {
     const jwt = this.token;
     const { template, file } = arg0;

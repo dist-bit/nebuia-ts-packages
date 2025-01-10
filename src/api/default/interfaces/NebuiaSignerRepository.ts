@@ -1,3 +1,4 @@
+import type { IsomorphicBlob } from '../../../models';
 import { NebuiaSignerDocument } from '../dto/NebuiaSignerDTO';
 
 export interface NebuiaSignerRepo {
@@ -29,11 +30,11 @@ export interface NebuiaSignerRepo {
     code: string;
   }): string;
 
-  saveGraphSign(arg0: { sign: Blob | Buffer }): true;
+  saveGraphSign(arg0: { sign: IsomorphicBlob }): true;
 
   saveFielSign(arg0: {
-    cer: Blob | Buffer;
-    key: Blob | Buffer;
+    cer: IsomorphicBlob;
+    key: IsomorphicBlob;
     password: string;
   }): true;
 

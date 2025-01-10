@@ -1,5 +1,6 @@
 import {
   checkNebuiaReportValidity,
+  type IsomorphicBlob,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaReport,
@@ -266,7 +267,7 @@ export class NebuiaAdminApiRepository
     };
   }
 
-  async setCompanyLogo(arg0: Blob | Buffer): NebuiaApiResponse<unknown> {
+  async setCompanyLogo(arg0: IsomorphicBlob): NebuiaApiResponse<unknown> {
     const body = new IsomorphicFormData();
     await body.init();
     body.append('logo', arg0, 'logo.png');

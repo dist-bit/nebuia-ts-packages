@@ -1,5 +1,7 @@
 import type NodeFormData from 'form-data';
 
+import type { IsomorphicBlob } from '../../models';
+
 export class IsomorphicFormData {
   private _formData: NodeFormData | FormData | undefined;
   async init(): Promise<void> {
@@ -25,10 +27,14 @@ export class IsomorphicFormData {
     return (this.formData as NodeFormData).getHeaders();
   }
 
-  append(name: string, value: Blob | Buffer, fileName: string): void;
+  append(name: string, value: IsomorphicBlob, fileName: string): void;
   append(name: string, value: string): void;
 
-  append(name: string, value: Blob | Buffer | string, fileName?: string): void {
+  append(
+    name: string,
+    value: IsomorphicBlob | string,
+    fileName?: string,
+  ): void {
     const env = this._env;
     if (typeof value !== 'string') {
       this._checkTypeValidity(value);
@@ -70,14 +76,14 @@ export class IsomorphicFormData {
     throw new Error('Unknown environment');
   }
 
-  private _checkTypeValidity(value: Blob | Buffer) {
+  private _checkTypeValidity(value: IsomorphicBlob) {
     const _env = this._env;
     if (_env === 'browser' && !(value instanceof Blob)) {
-      throw new Error('Invalid value type');
+      throw new Error(`Invalid value type, expected ${Blob.name} in browser`);
     }
 
     if (_env === 'node' && !(value instanceof Buffer)) {
-      throw new Error('Invalid value type');
+      throw new Error('Invalid value type, expected Buffer in node');
     }
   }
 }
