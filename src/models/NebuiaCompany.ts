@@ -2,8 +2,8 @@ import { NebuiaStepNames } from './NebuiaSteps';
 
 export type NebuiaRawKeys =
   | {
-      public_key?: string;
-      secret_key?: string;
+      public_key: undefined;
+      secret_key: undefined;
     }
   | {
       public_key: string;
@@ -30,6 +30,7 @@ export type NebuiaCompanySettings = {
 export type NebuiaCompany = {
   id: string;
   name: string;
+  email_owner: string;
   ip?: string;
   origin?: string;
   origins?: string[];
