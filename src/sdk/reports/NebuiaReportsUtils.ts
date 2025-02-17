@@ -40,6 +40,6 @@ export class NebuiaReportsUtilsFactory {
       this._classes[key] = new NebuiaReportsUtils(this.baseUrl, keys);
     }
 
-    return this._classes[key] as NebuiaReportsUtils;
+    return this._classes[key];
   }
 }
