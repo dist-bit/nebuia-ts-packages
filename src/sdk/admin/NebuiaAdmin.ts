@@ -6,7 +6,7 @@ import type { CredentialsStore } from './CredentialsStore';
 
 export class NebuiaAdmin extends NebuiaAdminApiRepository {
   private _simpleKeys: NebuiaKeys | null = null;
-  private readonly _authUtils;
+  private readonly _authUtils: CommonJwtSdkUtils;
   constructor(baseUrl: string, credentialsStore?: CredentialsStore) {
     super(baseUrl);
     this._authUtils = new CommonJwtSdkUtils(baseUrl, credentialsStore);

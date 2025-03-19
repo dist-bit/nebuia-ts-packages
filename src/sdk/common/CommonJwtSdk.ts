@@ -47,7 +47,7 @@ export class CommonJwtSdkUtils {
       return response;
     }
 
-    this._token = response.payload.token;
+    this.token = response.payload.token;
 
     return {
       status: true,
@@ -56,6 +56,32 @@ export class CommonJwtSdkUtils {
   }
 
   async verifyToken(): NebuiaApiResponse<string> {
+    const existingToken = this._token;
+    if (existingToken) {
+      try {
+        parseToken(existingToken);
+        return {
+          status: true,
+          payload: existingToken,
+        };
+      } catch (error) {
+        // Do nothing, the token is invalid or expired
+      }
+    }
+    const storedToken = await this.credentialsStore?.getExistingToken?.();
+    if (storedToken) {
+      try {
+        parseToken(storedToken);
+        this.token = storedToken;
+        return {
+          status: true,
+          payload: storedToken,
+        };
+      } catch (error) {
+        // Do nothing, the token is invalid or expired
+      }
+    }
+
     const credentials = await this._credentials;
     if (!credentials) {
       return {
@@ -63,24 +89,8 @@ export class CommonJwtSdkUtils {
         payload: 'No credentials provided',
       };
     }
-    if (!this._token) {
-      return this.login(credentials);
-    }
-
-    const { exp } = parseToken(this._token);
-
-    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-    const fiveMinutesInSeconds = 2 * 60; // 5 minutos en segundos
-    const timeRemaining = exp - currentTimeInSeconds;
-
-    if (timeRemaining < fiveMinutesInSeconds) {
-      return this.login(credentials);
-    }
-
-    return {
-      status: true,
-      payload: this._token,
-    };
+    // If the token is invalid or expired, we need to re-login
+    return this.login(credentials);
   }
 }
 // Función auxiliar para verificar si un objeto tiene las propiedades especificadas
@@ -117,6 +127,14 @@ function parseToken(token: string): { exp: number; id: string } {
     typeof data['id'] !== 'string'
   ) {
     throw new Error('Invalid token');
+  }
+
+  const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+  const fiveMinutesInSeconds = 2 * 60; // 5 minutos en segundos
+  const timeRemaining = data['exp'] - currentTimeInSeconds;
+
+  if (timeRemaining < fiveMinutesInSeconds) {
+    throw new Error('Token expired');
   }
 
   return {
