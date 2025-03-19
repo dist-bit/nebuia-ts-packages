@@ -1,3 +1,4 @@
+export * from './sdk/admin/CredentialsStore';
 export * from './sdk/admin/NebuiaAdmin';
 export * from './sdk/admin/Signature';
 export * from './sdk/admin/Signer';
