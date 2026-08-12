@@ -13,6 +13,7 @@ nebuia.createReport(); // Returns the report number and use it for next steps, s
 
 nebuia.getStepsCompany(); // Get the steps of the KYC defined by your company
 nebuia.getStepsFromReport(); // Get the steps of the KYC and the status of each step
+nebuia.getDocumentTypes(); // Get the document types that will actually be applied on the id step
 
 nebuia.analiceFace(new Blob()); // Returns the score and status of the face
 nebuia.qualityFace(new Blob()); // Returns the quality of the face

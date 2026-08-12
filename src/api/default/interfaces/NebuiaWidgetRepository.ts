@@ -1,5 +1,6 @@
 import {
   NebuiaAddress,
+  NebuiaAllowedDocumentType,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaCreateReportOptions,
@@ -14,6 +15,7 @@ export interface NebuiaWidgetRepository {
   checkAuthCode<T>(arg0: string): T;
   getOrigin(): string;
   getStepsCompany(): string[];
+  getDocumentTypes(): NebuiaAllowedDocumentType[];
   getStepsFromReport(): { name: NebuiaStepNames; status: boolean }[];
   getCompanyKeys(): Pick<NebuiaCompany, 'keys' | 'otp'> & { report: string };
   savePhoneNumber<T>(phone: string, extension?: string): T;

@@ -1,6 +1,7 @@
 import {
   type IsomorphicBlob,
   NebuiaAddress,
+  NebuiaAllowedDocumentType,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaCreateReportOptions,
@@ -52,6 +53,13 @@ export class NebuiaWidgetApiRepository
     return this.request({
       ...this.parse({ method: 'get', omitError: true }),
       path: 'steps/company',
+    });
+  }
+
+  async getDocumentTypes(): NebuiaApiResponse<NebuiaAllowedDocumentType[]> {
+    return this.request({
+      ...this.parse({ method: 'get', omitError: true }),
+      path: 'steps/document-types',
     });
   }
 

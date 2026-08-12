@@ -1,4 +1,4 @@
-import { NebuiaStepNames } from './NebuiaSteps';
+import { NebuiaAllowedDocumentType, NebuiaStepNames } from './NebuiaSteps';
 
 export type NebuiaRawKeys =
   | {
@@ -35,6 +35,7 @@ export type NebuiaCompany = {
   origin?: string;
   origins?: string[];
   steps: NebuiaStepNames[];
+  document_types?: NebuiaAllowedDocumentType[];
   keys?: NebuiaRawKeys;
   settings: NebuiaCompanySettings;
   credits?: number;

@@ -1,6 +1,7 @@
 import {
   checkNebuiaReportValidity,
   type IsomorphicBlob,
+  NebuiaAllowedDocumentType,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaReport,
@@ -154,6 +155,21 @@ export class NebuiaAdminApiRepository
       method: 'put',
       jwt,
       body: { steps: value },
+    });
+  }
+
+  async updateCompanyDocumentTypes({
+    value,
+  }: {
+    value: NebuiaAllowedDocumentType[];
+  }): NebuiaApiResponse<unknown> {
+    const jwt = this.token;
+
+    return this.request({
+      path: 'company/document-types',
+      method: 'put',
+      jwt,
+      body: { document_types: value },
     });
   }
 

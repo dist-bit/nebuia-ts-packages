@@ -1,5 +1,6 @@
 import {
   type IsomorphicBlob,
+  NebuiaAllowedDocumentType,
   NebuiaCompany,
   NebuiaCompanySettings,
   NebuiaReport,
@@ -29,6 +30,9 @@ export type NebuiaAdminRepository = {
     value: Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>;
   }) => unknown;
   updateCompanySteps: (arg0: { value: NebuiaStepNames[] }) => unknown;
+  updateCompanyDocumentTypes: (arg0: {
+    value: NebuiaAllowedDocumentType[];
+  }) => unknown;
   invalidateReport: (arg0: WithReport) => unknown;
   getReportPdf: (arg0: WithReport) => ArrayBuffer;
   getReportIDImage: (

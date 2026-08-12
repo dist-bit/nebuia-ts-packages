@@ -23,6 +23,9 @@ nebuia.invalidateReport({ report: 'REPORT_ID' }); // Delete a report
 nebuia.updateCompanySteps({
   value: ['email', 'id'],
 }); // Define the steps of the KYC for the company, by default is all steps
+nebuia.updateCompanyDocumentTypes({
+  value: ['passport'],
+}); // Define the document types allowed on the id step, by default is all types
 nebuia.updateCompanyTheme({
   value: {
     primary_color: '#6847a2',
