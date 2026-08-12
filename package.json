@@ -1,6 +1,6 @@
 {
   "name": "nebuia-ts",
-  "version": "2.1.1",
+  "version": "2.5.0",
   "description": "Common typescript libraries for Nebuia",
   "keywords": [],
   "author": "Ulises Rafael Ramírez Martínez",
@@ -44,5 +44,6 @@
   "peerDependencies": {
     "axios": "^1.8.3",
     "form-data": "^4.0.2"
-  }
+  },
+  "packageManager": "pnpm@10.12.1+sha1.4bd977ce548dc9fcd1ca0c62838c55646cea6847"
 }

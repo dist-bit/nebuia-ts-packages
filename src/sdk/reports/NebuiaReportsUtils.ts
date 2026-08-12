@@ -1,11 +1,20 @@
 import { NebuiaApiResponse, NebuiaReportsApiRepository } from '../../api';
-import { NebuiaKeys, NebuiaReport } from '../../models';
+import {
+  NebuiaCreateReportOptions,
+  NebuiaKeys,
+  NebuiaReport,
+} from '../../models';
 
 type WithReport<T> = T & { report: string };
 export class NebuiaReportsUtils extends NebuiaReportsApiRepository {
-  constructor(baseUrl: string, keys: NebuiaKeys) {
+  constructor(baseUrl: string, keys?: NebuiaKeys, sessionToken?: string) {
     super(baseUrl);
-    this.keys = keys;
+    if (keys) {
+      this.keys = keys;
+    }
+    if (sessionToken) {
+      this.sessionToken = sessionToken;
+    }
   }
 }
 
@@ -14,8 +23,11 @@ export class NebuiaReportsUtilsFactory {
 
   constructor(private readonly baseUrl: string) {}
 
-  async generateReport(keys: NebuiaKeys): NebuiaApiResponse<string> {
-    return this._getReportClass(keys).generateReport();
+  async generateReport(
+    keys: NebuiaKeys,
+    options?: NebuiaCreateReportOptions,
+  ): NebuiaApiResponse<string> {
+    return this._getReportClass(keys).generateReport(options);
   }
 
   async getPDF(
@@ -32,6 +44,19 @@ export class NebuiaReportsUtilsFactory {
 
   async verifyKeys(keys: NebuiaKeys): NebuiaApiResponse<unknown> {
     return this._getReportClass(keys).verifyKeys();
+  }
+
+  getSessionTokenInstance(sessionToken: string): NebuiaReportsUtils {
+    const key = `session:${sessionToken}`;
+    if (!this._classes[key]) {
+      this._classes[key] = new NebuiaReportsUtils(
+        this.baseUrl,
+        undefined,
+        sessionToken,
+      );
+    }
+
+    return this._classes[key];
   }
 
   private _getReportClass(keys: NebuiaKeys): NebuiaReportsUtils {

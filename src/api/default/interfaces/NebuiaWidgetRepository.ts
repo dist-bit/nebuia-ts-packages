@@ -2,6 +2,10 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanySettings,
+  NebuiaCreateReportOptions,
+  NebuiaFaceIdStatus,
+  NebuiaLivenessResult,
+  NebuiaPassiveSignals,
   NebuiaReport,
   NebuiaStepNames,
 } from '../../../models';
@@ -30,7 +34,7 @@ export interface NebuiaWidgetRepository {
   generateUrlSMS<T>(phone: string, extension?: string): T;
   saveEmailPhone<T>(arg0: { value: string; toEmail: boolean }): T;
   getReportPDF(): ArrayBuffer;
-  createReport(): string;
+  createReport(arg0?: NebuiaCreateReportOptions): string;
   getCompanyTheme(): Partial<
     Pick<NebuiaCompanySettings, 'primary_color' | 'secondary_color'>
   >;
@@ -38,4 +42,12 @@ export interface NebuiaWidgetRepository {
   getCompanyLogo(): ArrayBuffer;
   validateKeys(): void;
   getCompanySettings(): NebuiaCompany['settings'];
+  createFaceCaptureSession(): { session_id: string };
+  analyzeLiveness(arg0: {
+    sessionId: string;
+    frameNormal: Blob;
+    frameClose: Blob;
+  }): NebuiaLivenessResult;
+  getFaceIdStatus(): NebuiaFaceIdStatus;
+  sendPassiveSignals<T>(arg0: NebuiaPassiveSignals): T;
 }

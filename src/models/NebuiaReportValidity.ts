@@ -71,6 +71,10 @@ export const checkNebuiaReportValidity = (
     docStatus = summary.frontAndBack.status
       ? ReportValidity.SUCCESS
       : ReportValidity.DANGER;
+  } else {
+    docStatus = summary.verifications
+      ? ReportValidity.SUCCESS
+      : ReportValidity.DANGER;
   }
 
   if (!summary.verifications) {
@@ -78,10 +82,7 @@ export const checkNebuiaReportValidity = (
   }
 
   if (summary.spoofing && summary.match) {
-    if (
-      docStatus !== ReportValidity.DANGER &&
-      docStatus !== ReportValidity.REJECTED
-    ) {
+    if (docStatus !== ReportValidity.DANGER) {
       docStatus = ReportValidity.SUCCESS;
     }
   } else {

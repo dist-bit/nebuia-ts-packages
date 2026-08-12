@@ -1,9 +1,14 @@
-import { NebuiaKeys, NebuiaReport } from '../../../models';
-import { WithReport } from './common';
+import {
+  NebuiaCreateReportOptions,
+  NebuiaKeys,
+  NebuiaReport,
+} from '../../../models';
+import { WithReport, WithRfc } from './common';
 
 export interface NebuiaReportsRepository {
-  generateReport(): string;
+  generateReport(arg0?: NebuiaCreateReportOptions): string;
   existReport(arg0: WithReport): NebuiaReport;
   getPDF(arg0: WithReport): ArrayBuffer;
   verifyKeys(keys: NebuiaKeys): unknown;
+  updateRfc(arg0: WithReport<WithRfc>): unknown;
 }

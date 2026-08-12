@@ -27,6 +27,7 @@ export abstract class NebuiaApiRepository {
   protected readonly baseUrl: string;
   private _token: string | null = null;
   private _keys: NebuiaKeys | null = null;
+  private _sessionToken: string | null = null;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -66,6 +67,14 @@ export abstract class NebuiaApiRepository {
       status: true,
       payload: this._keys,
     });
+  }
+
+  public set sessionToken(value: string) {
+    this._sessionToken = value;
+  }
+
+  public get sessionToken(): string | null {
+    return this._sessionToken;
   }
 
   protected async request<T extends Exclude<unknown, ArrayBuffer>>(
@@ -164,10 +173,22 @@ export abstract class NebuiaApiRepository {
       unknown
     >
   > {
-    const { method, path, body, headers, jwt, query, keys, responseType } =
-      props;
+    const {
+      method,
+      path,
+      body,
+      headers,
+      jwt,
+      query,
+      keys,
+      sessionToken,
+      responseType,
+    } = props;
+    const activeSessionToken = sessionToken ?? this._sessionToken;
     const token = await this._parseToken(jwt);
-    const parsedKeys = await this._parseKeys(keys);
+    const parsedKeys = activeSessionToken
+      ? undefined
+      : await this._parseKeys(keys);
 
     const parsedBody =
       body instanceof IsomorphicFormData ? body.formData : body;
@@ -177,6 +198,9 @@ export abstract class NebuiaApiRepository {
       params: query,
       headers: {
         ...headers,
+        ...(activeSessionToken
+          ? { 'X-Session-Token': activeSessionToken }
+          : {}),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(parsedKeys ? convertKeysToHeaders(parsedKeys) : {}),
         ...(parsedBody instanceof IsomorphicFormData ? parsedBody.headers : {}),
@@ -251,6 +275,12 @@ export class NebuiaApiFetcher {
   public initKeys(keys: NebuiaKeys): void {
     Object.values(this.repositories).forEach((repo) => {
       repo.keys = keys;
+    });
+  }
+
+  public initSessionToken(sessionToken: string): void {
+    Object.values(this.repositories).forEach((repo) => {
+      repo.sessionToken = sessionToken;
     });
   }
 

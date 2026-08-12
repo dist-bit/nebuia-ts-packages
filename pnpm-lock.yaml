@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       axios:
-        specifier: 1.7.9
-        version: 1.7.9
+        specifier: 1.8.3
+        version: 1.8.3
       form-data:
         specifier: 4.0.2
         version: 4.0.2
@@ -559,8 +559,8 @@ packages:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
 
-  axios@1.7.9:
-    resolution: {integrity: sha512-LhLcE7Hbiryz8oMDdDptSrWowmB4Bl6RCt6sIJKpRB4XtVf0iEgewX3au/pJqm+Py1kCASkb/FFKjxQaLtxJvw==}
+  axios@1.8.3:
+    resolution: {integrity: sha512-iP4DebzoNlP/YN2dpwCgb8zoCmhtkajzS48JvwmkSkXvPI3DHc7m+XYL5tGnSlJtR6nImXZmdCuN5aP8dh1d8A==}
 
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
@@ -2243,7 +2243,7 @@ snapshots:
 
   available-typed-arrays@1.0.5: {}
 
-  axios@1.7.9:
+  axios@1.8.3:
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.2

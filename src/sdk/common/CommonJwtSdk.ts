@@ -60,6 +60,7 @@ export class CommonJwtSdkUtils {
     if (existingToken) {
       try {
         parseToken(existingToken);
+
         return {
           status: true,
           payload: existingToken,
@@ -73,6 +74,7 @@ export class CommonJwtSdkUtils {
       try {
         parseToken(storedToken);
         this.token = storedToken;
+
         return {
           status: true,
           payload: storedToken,
@@ -89,6 +91,7 @@ export class CommonJwtSdkUtils {
         payload: 'No credentials provided',
       };
     }
+
     // If the token is invalid or expired, we need to re-login
     return this.login(credentials);
   }

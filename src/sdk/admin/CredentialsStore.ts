@@ -1,5 +1,7 @@
 import type { Credentials } from '../common/CommonSdk';
 
+export type PromiseOr<T> = T | Promise<T>;
+
 export type CredentialsStore = {
   getCredentials(): PromiseOr<Credentials | null>;
   setCredentials(credentials: Credentials): PromiseOr<void>;
@@ -7,5 +9,3 @@ export type CredentialsStore = {
   getExistingToken?: () => PromiseOr<string | null>;
   setExistingToken?: (token: string) => PromiseOr<void>;
 };
-
-export type PromiseOr<T> = T | Promise<T>;

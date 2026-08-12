@@ -12,6 +12,7 @@ export type NebuiaApiFetchProps = {
   body?: Record<string, unknown> | string | IsomorphicFormData;
   jwt?: string | NebuiaApiResponse<string>;
   keys?: NebuiaKeys | NebuiaApiResponse<NebuiaKeys>;
+  sessionToken?: string;
   responseType?: 'arraybuffer';
 };
 

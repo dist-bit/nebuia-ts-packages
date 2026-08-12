@@ -3,12 +3,17 @@ import {
   NebuiaAddress,
   NebuiaCompany,
   NebuiaCompanySettings,
+  NebuiaCreateReportOptions,
+  NebuiaFaceIdStatus,
+  NebuiaLivenessResult,
+  NebuiaPassiveSignals,
   NebuiaReport,
   NebuiaStepNames,
 } from '../../models';
 import { NebuiaApiRepository, ParsedApiMethods } from '../types/Fetcher';
 import { IsomorphicFormData } from '../types/FormData';
 import { NebuiaApiResponse } from '../types/NebuiaResponse';
+import { parseCreateReportOptions } from './common/createReportOptions';
 import { NebuiaWidgetRepository } from './interfaces/NebuiaWidgetRepository';
 
 export class NebuiaWidgetApiRepository
@@ -53,10 +58,28 @@ export class NebuiaWidgetApiRepository
   async getStepsFromReport(): NebuiaApiResponse<
     { name: NebuiaStepNames; status: boolean }[]
   > {
-    return this.request({
-      ...this.parse({ method: 'get' }),
-      path: 'services/steps',
-    });
+    const [stepsResult, reportResult] = await Promise.all([
+      this.request<{ name: NebuiaStepNames; status: boolean }[]>({
+        ...this.parse({ method: 'get' }),
+        path: 'services/steps',
+      }),
+      this.getReportObject(),
+    ]);
+
+    if (!stepsResult.status) {
+      return stepsResult;
+    }
+
+    const steps = stepsResult.payload;
+    const livenessStep = steps.find((s) => s.name === 'liveness');
+    if (livenessStep && reportResult.status) {
+      const kyc = reportResult.payload.face?.liveness?.is_valid_for_kyc;
+      if (kyc !== undefined) {
+        livenessStep.status = kyc;
+      }
+    }
+
+    return { status: true, payload: steps };
   }
 
   async getCompanyKeys(): NebuiaApiResponse<
@@ -245,10 +268,15 @@ export class NebuiaWidgetApiRepository
     });
   }
 
-  async createReport(): NebuiaApiResponse<string> {
+  async createReport(
+    arg0?: NebuiaCreateReportOptions,
+  ): NebuiaApiResponse<string> {
+    const body = parseCreateReportOptions(arg0);
+
     return this.request({
       ...this.parse({ method: 'post', omitError: true }),
       path: 'services/report',
+      ...(body ? { body } : {}),
     });
   }
 
@@ -289,6 +317,52 @@ export class NebuiaWidgetApiRepository
     });
   }
 
+  async createFaceCaptureSession(): NebuiaApiResponse<{
+    session_id: string;
+  }> {
+    return this.request({
+      ...this.parse({ method: 'post' }),
+      path: 'services/face/capture-session',
+    });
+  }
+
+  async analyzeLiveness(arg0: {
+    sessionId: string;
+    frameNormal: IsomorphicBlob;
+    frameClose: IsomorphicBlob;
+  }): NebuiaApiResponse<NebuiaLivenessResult> {
+    const { sessionId, frameNormal, frameClose } = arg0;
+    const body = new IsomorphicFormData();
+    await body.init();
+    body.append('session_id', sessionId);
+    body.append('timestamp', String(Date.now()));
+    body.append('frame_normal', frameNormal, 'selfie_normal.jpg');
+    body.append('frame_close', frameClose, 'selfie_close.jpg');
+
+    return this.request({
+      ...this.parse({ method: 'post' }),
+      path: 'services/face/analyze-liveness',
+      body,
+    });
+  }
+
+  async getFaceIdStatus(): NebuiaApiResponse<NebuiaFaceIdStatus> {
+    return this.request({
+      ...this.parse({ method: 'get' }),
+      path: 'services/face/id-status',
+    });
+  }
+
+  async sendPassiveSignals(
+    arg0: NebuiaPassiveSignals,
+  ): NebuiaApiResponse<unknown> {
+    return this.request({
+      ...this.parse({ method: 'post' }),
+      path: 'services/face/passive-signals',
+      body: arg0 as unknown as Record<string, unknown>,
+    });
+  }
+
   private parse({
     method,
     omitError = false,
@@ -298,6 +372,13 @@ export class NebuiaWidgetApiRepository
     omitError?: boolean;
     omitReport?: boolean;
   }) {
+    if (this.sessionToken) {
+      return {
+        method,
+        sessionToken: this.sessionToken,
+      };
+    }
+
     const keys = this.keys;
     const report = this.getReport(omitError);
     if (!omitReport) {

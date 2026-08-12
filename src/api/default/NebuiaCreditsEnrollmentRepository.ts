@@ -51,6 +51,13 @@ export class NebuiaCreditsEnrollmentRepository
     method: 'get' | 'post' | 'put' | 'delete' | 'patch',
     omitError = false,
   ) {
+    if (this.sessionToken) {
+      return {
+        method,
+        sessionToken: this.sessionToken,
+      };
+    }
+
     const keys = this.keys;
     const report = this.getReport(omitError);
 
